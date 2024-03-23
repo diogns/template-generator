@@ -14,13 +14,15 @@ const moduleGenerator = (entities) => {
   entities.map((entity) => {
     const names = getNames(entity)
     const importForEntity = `
-    import { ${names.uperFL}CommandsImplement } from '../repositories/${names.fileName}.repository';
+    import { ${names.uperFL}CommandsImplement, ${names.uperFL}QueriesImplement } from '../repositories/${names.fileName}.repository';
+    import { Get${names.uperFL}ByIdHandler } from '../../application/queries/get-${names.fileName}-by-id';
+    import { List${names.uperFL}sHandler } from '../../application/queries/list-${names.fileName}s';
     import { Add${names.uperFL}Handler } from '../../application/commands/add-${names.fileName}';
-    import { Get${names.uperFL}Handler } from '../../application/commands/get-${names.fileName}';
     import { Update${names.uperFL}Handler } from '../../application/commands/update-${names.fileName}';
     import { Remove${names.uperFL}Handler } from '../../application/commands/remove-${names.fileName}';
+    import { Get${names.uperFL}ByIdController } from '../../interfaces/http/v1/get-${names.fileName}/get-${names.fileName}-by-id.controller';
+    import { List${names.uperFL}sController } from '../../interfaces/http/v1/get-${names.fileName}/list-${names.fileName}s.controller';
     import { Add${names.uperFL}Controller } from '../../interfaces/http/v1/add-${names.fileName}/add-${names.fileName}.controller';
-    import { Get${names.uperFL}Controller } from '../../interfaces/http/v1/get-${names.fileName}/get-${names.fileName}.controller';
     import { Update${names.uperFL}Controller } from '../../interfaces/http/v1/update-${names.fileName}/update-${names.fileName}.controller';
     import { Remove${names.uperFL}Controller } from '../../interfaces/http/v1/remove-${names.fileName}/remove-${names.fileName}.controller';
     `
@@ -35,8 +37,9 @@ const moduleGenerator = (entities) => {
   entities.map((entity) => {
     const names = getNames(entity)
     const controllers = `
+      Get${names.uperFL}ByIdController,
+      List${names.uperFL}sController,
       Add${names.uperFL}Controller,
-      Get${names.uperFL}Controller,
       Update${names.uperFL}Controller,
       Remove${names.uperFL}Controller,`
     content = content.concat(controllers);
@@ -52,6 +55,7 @@ const moduleGenerator = (entities) => {
   entities.map((entity) => {
     const names = getNames(entity)
     const queries = `
+    ${names.uperFL}QueriesImplement,
     ${names.uperFL}CommandsImplement,`
     content = content.concat(queries);
   })
@@ -70,8 +74,9 @@ const moduleGenerator = (entities) => {
   entities.map((entity) => {
     const names = getNames(entity)
     const applications = `
+      Get${names.uperFL}ByIdHandler,
+      List${names.uperFL}sHandler,
       Add${names.uperFL}Handler,
-      Get${names.uperFL}Handler,
       Update${names.uperFL}Handler,
       Remove${names.uperFL}Handler,`
     content = content.concat(applications);

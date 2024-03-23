@@ -16,17 +16,35 @@ const exceptionGenerator = (entity) => {
   // body
   crud.map((method) => {
     const action = method.action;
+    const type = method.type;
+    const name = method.name;
     const expression = method.expression;
+    let classAndConstructor = '';
+    let when = '';
+    if (type == 'command') {
+      classAndConstructor = `${action}${names.uperFL}`;
+      when = `${expression} ${names.name}`;
+    }
+    if (type == 'query') {
+      if (name == 'get') {
+        classAndConstructor = `${action}${names.uperFL}ById`;
+        when = `${expression} ${names.name}`;
+      }
+      if (name == 'list') {
+        classAndConstructor = `${action}${names.uperFL}s`;
+        when = `${expression} ${names.name}s`;
+      }
+    }
 
     const exceptionItem = `
-    export class ${action}${names.uperFL}DatabaseException extends InfrastructureException {
+    export class ${classAndConstructor}DatabaseException extends InfrastructureException {
       code: string;
       constructor() {
-        super(${action}${names.uperFL}DatabaseException.getMessage());
-        this.code = InfrastructureExceptionCode.${action}${names.uperFL}DatabaseExceptionCode;
+        super(${classAndConstructor}DatabaseException.getMessage());
+        this.code = InfrastructureExceptionCode.${classAndConstructor}DatabaseExceptionCode;
       }
       static getMessage(): string {
-        return 'There was an error in the database when ${expression} ${names.name}';
+        return 'There was an error in the database when ${when}';
       }
     }
     `
@@ -56,10 +74,26 @@ const infrastructureExceptionGenerator = (entities) => {
     // ${names.pluralUperFL}`
     crud.map((method) => {
       const action = method.action;
+      const type = method.type;
+      const name = method.name;
       const actionUper = method.actionUper;
+      let actionDefinition = '';
 
-      const actionDefinition = `
-      ${action}${names.uperFL}DatabaseExceptionCode = '${actionUper}_${names.nameUper}_DATABASE_EXCEPTION',`
+      if (type == 'command') {
+        actionDefinition = `
+        ${action}${names.uperFL}DatabaseExceptionCode = '${actionUper}_${names.nameUper}_DATABASE_EXCEPTION',`
+      }
+      if (type == 'query') {
+        if (name == 'get') {
+          actionDefinition = `
+          ${action}${names.uperFL}ByIdDatabaseExceptionCode = '${actionUper}_${names.nameUper}_BY_ID_DATABASE_EXCEPTION',`
+        }
+        if (name == 'list') {
+          actionDefinition = `
+          ${action}${names.uperFL}sDatabaseExceptionCode = '${actionUper}_${names.nameUper}S_DATABASE_EXCEPTION',`
+        }
+      }
+
       entitBody = entitBody.concat(actionDefinition);
     })
     content = content.concat(entitBody);

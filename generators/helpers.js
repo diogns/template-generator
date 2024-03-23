@@ -67,18 +67,12 @@ fileAndFolderObject = { type: '', name: '', content: '', seeds: [] }
 
 const crud = [
   {
-    name:'create',
+    name:'add',
     action: 'Add',
     actionUper: 'ADD',
     actionInGerund: 'adding',
     expression: 'adding new',
-  },
-  {
-    name:'read',
-    action: 'Get',
-    actionUper: 'GET',
-    actionInGerund: 'getting',
-    expression: 'getting a',
+    type: 'command',
   },
   {
     name:'update',
@@ -86,13 +80,31 @@ const crud = [
     actionUper: 'UPDATE',
     actionInGerund: 'updating',
     expression: 'updating a',
+    type: 'command',
   },
   {
-    name:'delete',
+    name:'remove',
     action: 'Remove',
     actionUper: 'REMOVE',
     actionInGerund: 'removing a',
     expression: 'removing a',
+    type: 'command',
+  },
+  {
+    name:'get',
+    action: 'Get',
+    actionUper: 'GET',
+    actionInGerund: 'getting',
+    expression: 'getting a',
+    type: 'query',
+  },
+  {
+    name:'list',
+    action: 'List',
+    actionUper: 'LIST',
+    actionInGerund: 'Listing',
+    expression: 'listing',
+    type: 'query',
   },
 ];
 

@@ -66,13 +66,27 @@
                                         "type": "dir",
                                         "name": "commands",
                                         "content": "",
-                                        "seeds": []
+                                        "seeds": [
+                                            {
+                                                "type": "file",
+                                                "name": ".gitkeep",
+                                                "content": "",
+                                                "seeds": []
+                                            }
+                                        ]
                                     },
                                     {
                                         "type": "dir",
                                         "name": "queries",
                                         "content": "",
-                                        "seeds": []
+                                        "seeds": [
+                                            {
+                                                "type": "file",
+                                                "name": ".gitkeep",
+                                                "content": "",
+                                                "seeds": []
+                                            }
+                                        ]
                                     }
                                 ]
                             },
