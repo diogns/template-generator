@@ -15,7 +15,7 @@ const entityGenerator = (entity) => {
     import { ApiProperty } from '@nestjs/swagger';
     ${ExcluceImport}
   
-    export class ${names.uperFL} {
+    export class ${names.uperFL}Entity {
     `
     content = content.concat(header);
 

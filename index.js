@@ -12,12 +12,12 @@ const moduleGenerator = (module, data, projectStructure) => {
   moduleSeeds.map((seed) => {
     let seedName = seed.name;
 
-    // src
+    // domain
     if (seedName == 'domain') {
       domainGenerator(seed, data)
     }
 
-    // src
+    // infrastructure
     if (seedName == 'infrastructure') {
       infrastructureGenerator(seed, data)
     }

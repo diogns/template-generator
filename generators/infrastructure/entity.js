@@ -1,8 +1,6 @@
 const { getNames } = require('../helpers');
 
 const entityGenerator = (entity) => {
-  console.log(entity);
-
   const attributes = entity.attributes;
   const names = getNames(entity)
   const hasDefaultIndex = entity.hasDefaultIndex;
@@ -114,9 +112,7 @@ const entityGenerator = (entity) => {
   })
 
   oneToMany.map((entityOtM) => {
-    console.log(entityOtM)
     const nameOtM = entityOtM.value;
-    console.log(nameOtM)
     const namesOtM = getNames({ name: nameOtM });
 
     const attributeItem = `

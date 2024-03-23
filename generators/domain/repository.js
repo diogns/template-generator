@@ -17,9 +17,9 @@ const repositoryGenerator = (entity) => {
     
     import {
         ${importsHeaders}
-      } from '../../infrastructure/exceptions/$Ge{names.fileName}.exception';      
+      } from '../../infrastructure/exceptions/${names.fileName}.exception';      
     
-      import { ${names.uperFL}Entity } from '../../domain/entities/${names.fileName}.entity';
+      import { ${names.uperFL}Entity } from '../entities/${names.fileName}';
       `
     content = content.concat(header);
 
