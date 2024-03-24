@@ -16,7 +16,7 @@ const domainGenerator = (ffobject, data) => {
         const names = getNames(entity)
         const newFfobject = { ...fileAndFolderObject }
         newFfobject.type = 'file';
-        newFfobject.name = `${names.fileName}.ts`;
+        newFfobject.name = `${names.fileName}.entity.ts`;
         newFfobject.content = entityGenerator(entity);
         seed.seeds.push(newFfobject)
       })

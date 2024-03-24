@@ -15,11 +15,11 @@ const moduleGenerator = (entities) => {
     const names = getNames(entity)
     const importForEntity = `
     import { ${names.uperFL}CommandsImplement, ${names.uperFL}QueriesImplement } from '../repositories/${names.fileName}.repository';
-    import { Get${names.uperFL}ByIdHandler } from '../../application/queries/get-${names.fileName}-by-id';
-    import { List${names.uperFL}sHandler } from '../../application/queries/list-${names.fileName}s';
-    import { Add${names.uperFL}Handler } from '../../application/commands/add-${names.fileName}';
-    import { Update${names.uperFL}Handler } from '../../application/commands/update-${names.fileName}';
-    import { Remove${names.uperFL}Handler } from '../../application/commands/remove-${names.fileName}';
+    import { Get${names.uperFL}ByIdHandler } from '../../application/queries/${names.fileName}/get-${names.fileName}-by-id.query';
+    import { List${names.uperFL}sHandler } from '../../application/queries/${names.fileName}/list-${names.fileName}s.query';
+    import { Add${names.uperFL}Handler } from '../../application/commands/${names.fileName}/add-${names.fileName}.command';
+    import { Update${names.uperFL}Handler } from '../../application/commands/${names.fileName}/update-${names.fileName}.command';
+    import { Remove${names.uperFL}Handler } from '../../application/commands/${names.fileName}/remove-${names.fileName}.command';
     import { Get${names.uperFL}ByIdController } from '../../interfaces/http/v1/get-${names.fileName}/get-${names.fileName}-by-id.controller';
     import { List${names.uperFL}sController } from '../../interfaces/http/v1/get-${names.fileName}/list-${names.fileName}s.controller';
     import { Add${names.uperFL}Controller } from '../../interfaces/http/v1/add-${names.fileName}/add-${names.fileName}.controller';

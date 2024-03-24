@@ -10,7 +10,7 @@ const repositoryGenerator = (entity) => {
     import { err, ok } from 'neverthrow';
     import { DatabaseManager } from '../../core/infrastructure/database-manager';
 
-    import { ${names.uperFL}Entity } from '../../domain/entities/${names.fileName}';
+    import { ${names.uperFL}Entity } from '../../domain/entities/${names.fileName}.entity';
     import {
       Get${names.uperFL}ByIdResult,
       List${names.uperFL}sResult,

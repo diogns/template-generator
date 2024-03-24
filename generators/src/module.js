@@ -21,6 +21,11 @@ const moduleGenerator = (ffobject, entities) => {
     if (seedName == 'application') {
       applicationGenerator(seed, entities)
     }
+
+    // interface
+    if (seedName == 'interfaces') {
+      applicationGenerator(seed, entities)
+    }
   })
 }
 
