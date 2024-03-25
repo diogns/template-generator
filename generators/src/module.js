@@ -1,6 +1,8 @@
 const { domainGenerator } = require('../domain/domain');
 const { infrastructureGenerator } = require('../infrastructure/infrastructure');
 const { applicationGenerator } = require('../application/application');
+const { interfacesGenerator } = require('../interfaces/interfaces');
+
 const moduleGenerator = (ffobject, entities) => {
   console.log('module!')
   let ffobjectSeeds = ffobject.seeds;
@@ -24,7 +26,7 @@ const moduleGenerator = (ffobject, entities) => {
 
     // interface
     if (seedName == 'interfaces') {
-      applicationGenerator(seed, entities)
+      interfacesGenerator(seed, entities)
     }
   })
 }

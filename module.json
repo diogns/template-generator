@@ -1,0 +1,123 @@
+[
+  {
+    "type": "dir",
+    "name": "application",
+    "content": "",
+    "seeds": [
+      {
+        "type": "dir",
+        "name": "commands",
+        "content": "",
+        "seeds": [
+          {
+            "type": "file",
+            "name": ".gitkeep",
+            "content": "",
+            "seeds": []
+          }
+        ]
+      },
+      {
+        "type": "dir",
+        "name": "queries",
+        "content": "",
+        "seeds": [
+          {
+            "type": "file",
+            "name": ".gitkeep",
+            "content": "",
+            "seeds": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "dir",
+    "name": "domain",
+    "content": "",
+    "seeds": [
+      {
+        "type": "dir",
+        "name": "entities",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "dir",
+        "name": "repositories",
+        "content": "",
+        "seeds": []
+      }
+    ]
+  },
+  {
+    "type": "dir",
+    "name": "infrastructure",
+    "content": "",
+    "seeds": [
+      {
+        "type": "dir",
+        "name": "entities",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "dir",
+        "name": "exceptions",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "dir",
+        "name": "nestjs",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "dir",
+        "name": "repositories",
+        "content": "",
+        "seeds": []
+      }
+    ]
+  },
+  {
+    "type": "dir",
+    "name": "interfaces",
+    "content": "",
+    "seeds": [
+      {
+        "type": "dir",
+        "name": "http",
+        "content": "",
+        "seeds": [
+          {
+            "type": "dir",
+            "name": "v1",
+            "content": "",
+            "seeds": []
+          },
+          {
+            "type": "file",
+            "name": "general.response.ts",
+            "content": "",
+            "seeds": []
+          }
+        ]
+      },
+      {
+        "type": "file",
+        "name": ".gitkeep",
+        "content": "",
+        "seeds": []
+      }
+    ]
+  },
+  {
+    "type": "dir",
+    "name": "shared",
+    "content": "",
+    "seeds": []
+  }
+]

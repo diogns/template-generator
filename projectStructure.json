@@ -1,301 +1,179 @@
 [
-    {
+  {
+    "type": "dir",
+    "name": "project",
+    "content": "",
+    "seeds": [
+      {
         "type": "dir",
-        "name": "project",
+        "name": "src",
         "content": "",
         "seeds": [
-            {
-                "type": "dir",
-                "name": "src",
-                "content": "",
-                "seeds": [
-                    {
-                        "type": "dir",
-                        "name": "migrations",
-                        "content": "",
-                        "seeds": []
-                    },
-                    {
-                        "type": "dir",
-                        "name": "helpers",
-                        "content": "",
-                        "seeds": [
-                            {
-                                "type": "file",
-                                "name": "AuroraManager.ts",
-                                "content": "",
-                                "seeds": []
-                            },
-                            {
-                                "type": "file",
-                                "name": "constants.ts",
-                                "content": "",
-                                "seeds": []
-                            },
-                            {
-                                "type": "file",
-                                "name": "Types.ts",
-                                "content": "",
-                                "seeds": []
-                            },
-                            {
-                                "type": "file",
-                                "name": "Parameters.ts",
-                                "content": "",
-                                "seeds": []
-                            },
-                            {
-                                "type": "file",
-                                "name": "common.ts",
-                                "content": "",
-                                "seeds": []
-                            }
-                        ]
-                    },
-                    {
-                        "type": "dir",
-                        "name": "module",
-                        "content": "",
-                        "seeds": [
-                            {
-                                "type": "dir",
-                                "name": "application",
-                                "content": "",
-                                "seeds": [
-                                    {
-                                        "type": "dir",
-                                        "name": "commands",
-                                        "content": "",
-                                        "seeds": [
-                                            {
-                                                "type": "file",
-                                                "name": ".gitkeep",
-                                                "content": "",
-                                                "seeds": []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "type": "dir",
-                                        "name": "queries",
-                                        "content": "",
-                                        "seeds": [
-                                            {
-                                                "type": "file",
-                                                "name": ".gitkeep",
-                                                "content": "",
-                                                "seeds": []
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "dir",
-                                "name": "domain",
-                                "content": "",
-                                "seeds": [
-                                    {
-                                        "type": "dir",
-                                        "name": "entities",
-                                        "content": "",
-                                        "seeds": []
-                                    },
-                                    {
-                                        "type": "dir",
-                                        "name": "repositories",
-                                        "content": "",
-                                        "seeds": []
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "dir",
-                                "name": "infrastructure",
-                                "content": "",
-                                "seeds": [
-                                    {
-                                        "type": "dir",
-                                        "name": "entities",
-                                        "content": "",
-                                        "seeds": []
-                                    },
-                                    {
-                                        "type": "dir",
-                                        "name": "exceptions",
-                                        "content": "",
-                                        "seeds": []
-                                    },
-                                    {
-                                        "type": "dir",
-                                        "name": "nestjs",
-                                        "content": "",
-                                        "seeds": []
-                                    },
-                                    {
-                                        "type": "dir",
-                                        "name": "repositories",
-                                        "content": "",
-                                        "seeds": []
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "dir",
-                                "name": "interfaces",
-                                "content": "",
-                                "seeds": [
-                                    {
-                                        "type": "dir",
-                                        "name": "http",
-                                        "content": "",
-                                        "seeds": [
-                                            {
-                                                "type": "dir",
-                                                "name": "v1",
-                                                "content": "",
-                                                "seeds": []
-                                            },
-                                            {
-                                                "type": "file",
-                                                "name": "general.response.ts",
-                                                "content": "",
-                                                "seeds": []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "type": "file",
-                                        "name": ".gitkeep",
-                                        "content": "",
-                                        "seeds": []
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "dir",
-                                "name": "shared",
-                                "content": "",
-                                "seeds": []
-                            }
-                        ]
-                    },
-                    {
-                        "type": "dir",
-                        "name": "seeds",
-                        "content": "",
-                        "seeds": []
-                    },
-                    {
-                        "type": "file",
-                        "name": "migrationsDataSource.ts",
-                        "content": "",
-                        "seeds": []
-                    },
-                    {
-                        "type": "file",
-                        "name": "main.ts",
-                        "content": "",
-                        "seeds": []
-                    },
-                    {
-                        "type": "file",
-                        "name": "app.service.ts",
-                        "content": "",
-                        "seeds": []
-                    },
-                    {
-                        "type": "file",
-                        "name": "app.module.ts",
-                        "content": "",
-                        "seeds": []
-                    }
-                ]
-            },
-            {
-                "type": "dir",
-                "name": "test",
-                "content": "",
-                "seeds": []
-            },
-            {
+          {
+            "type": "dir",
+            "name": "migrations",
+            "content": "",
+            "seeds": []
+          },
+          {
+            "type": "dir",
+            "name": "helpers",
+            "content": "",
+            "seeds": [
+              {
                 "type": "file",
-                "name": ".dockerignore",
+                "name": "AuroraManager.ts",
                 "content": "",
                 "seeds": []
-            },
-            {
+              },
+              {
                 "type": "file",
-                "name": ".env",
+                "name": "constants.ts",
                 "content": "",
                 "seeds": []
-            },
-            {
+              },
+              {
                 "type": "file",
-                "name": ".env.example",
+                "name": "Types.ts",
                 "content": "",
                 "seeds": []
-            },
-            {
+              },
+              {
                 "type": "file",
-                "name": ".eslintrc.js",
+                "name": "Parameters.ts",
                 "content": "",
                 "seeds": []
-            },
-            {
+              },
+              {
                 "type": "file",
-                "name": ".gitignore",
+                "name": "common.ts",
                 "content": "",
                 "seeds": []
-            },
-            {
-                "type": "file",
-                "name": ".prettierrc",
-                "content": "",
-                "seeds": []
-            },
-            {
-                "type": "file",
-                "name": "docker-compose.yaml",
-                "content": "",
-                "seeds": []
-            },
-            {
-                "type": "file",
-                "name": "Dockerfile",
-                "content": "",
-                "seeds": []
-            },
-            {
-                "type": "file",
-                "name": "nest-cli.json",
-                "content": "",
-                "seeds": []
-            },
-            {
-                "type": "file",
-                "name": "package.json",
-                "content": "",
-                "seeds": []
-            },
-            {
-                "type": "file",
-                "name": "README.md",
-                "content": "",
-                "seeds": []
-            },
-            {
-                "type": "file",
-                "name": "tsconfig.build.json",
-                "content": "",
-                "seeds": []
-            },
-            {
-                "type": "file",
-                "name": "tsconfig.json",
-                "content": "",
-                "seeds": []
-            }
+              }
+            ]
+          },
+          {
+            "type": "dir",
+            "name": "modules",
+            "content": "",
+            "seeds": []
+          },
+          {
+            "type": "dir",
+            "name": "seeds",
+            "content": "",
+            "seeds": []
+          },
+          {
+            "type": "file",
+            "name": "migrationsDataSource.ts",
+            "content": "",
+            "seeds": []
+          },
+          {
+            "type": "file",
+            "name": "main.ts",
+            "content": "",
+            "seeds": []
+          },
+          {
+            "type": "file",
+            "name": "app.service.ts",
+            "content": "",
+            "seeds": []
+          },
+          {
+            "type": "file",
+            "name": "app.module.ts",
+            "content": "",
+            "seeds": []
+          }
         ]
-    }
+      },
+      {
+        "type": "dir",
+        "name": "test",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": ".dockerignore",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": ".env",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": ".env.example",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": ".eslintrc.js",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": ".gitignore",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": ".prettierrc",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": "docker-compose.yaml",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": "Dockerfile",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": "nest-cli.json",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": "package.json",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": "README.md",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": "tsconfig.build.json",
+        "content": "",
+        "seeds": []
+      },
+      {
+        "type": "file",
+        "name": "tsconfig.json",
+        "content": "",
+        "seeds": []
+      }
+    ]
+  }
 ]
