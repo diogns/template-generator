@@ -1,40 +1,43 @@
 const { entityGenerator } = require('./entity');
 const { repositoryGenerator } = require('./repository');
+const { exceptionGenerator } = require('./exception');
 
-const { fileAndFolderObject } = require('../helpers');
-const { getNames } = require('../helpers');
+const { fileAndFolderObject, getNames } = require('../helpers');
 
-const domainGenerator = (ffobject, data) => {
-  console.log('Building Domain!')
+const domainGenerator = (ffobject, entity) => {
   let ffobjectSeeds = ffobject.seeds;
+  const names = getNames(entity)
+
   ffobjectSeeds.map((seed) => {
     let seedName = seed.name;
 
     // entities
     if (seedName == 'entities') {
-      data.map((entity) => {
-        const names = getNames(entity)
-        const newFfobject = { ...fileAndFolderObject }
-        newFfobject.type = 'file';
-        newFfobject.name = `${names.fileName}.entity.ts`;
-        newFfobject.content = entityGenerator(entity);
-        seed.seeds.push(newFfobject)
-      })
+      const newFfobject = JSON.parse(JSON.stringify(fileAndFolderObject));
+      newFfobject.type = 'file';
+      newFfobject.name = `${names.fileName}.entity.ts`;
+      newFfobject.content = entityGenerator(entity);
+      seed.seeds.push(newFfobject)
     }
 
     // repositories
     if (seedName == 'repositories') {
-      data.map((entity) => {
-        const names = getNames(entity)
-        const newFfobject = { ...fileAndFolderObject }
-        newFfobject.type = 'file';
-        newFfobject.name = `${names.fileName}.repository.ts`;
-        newFfobject.content = repositoryGenerator(entity);
-        seed.seeds.push(newFfobject)
-      })
+      const newFfobject = JSON.parse(JSON.stringify(fileAndFolderObject));
+      newFfobject.type = 'file';
+      newFfobject.name = `${names.fileName}.repository.ts`;
+      newFfobject.content = repositoryGenerator(entity);
+      seed.seeds.push(newFfobject)
+    }
+
+    // exception
+    if (seedName == 'exceptions') {
+      const newFfobject = JSON.parse(JSON.stringify(fileAndFolderObject));
+      newFfobject.type = 'file';
+      newFfobject.name = `${names.fileName}.exception.ts`;
+      newFfobject.content = exceptionGenerator(entity);
+      seed.seeds.push(newFfobject)
     }
   })
-  console.log('Domain Finished!')
 }
 
 module.exports = { domainGenerator };

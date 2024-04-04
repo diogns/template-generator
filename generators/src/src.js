@@ -16,7 +16,7 @@ const srcGenerator = (ffobject, entities) => {
     }
 
     // module
-    if (seedName == 'module') {
+    if (seedName == 'modules') {
       moduleGenerator(seed, entities)
     }
   })

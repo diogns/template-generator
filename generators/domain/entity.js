@@ -1,94 +1,141 @@
 const { getNames } = require('../helpers');
 
 const entityGenerator = (entity) => {
-    const attributes = entity.attributes;
-    const names = getNames(entity)
-    const hasDefaultIndex = entity.hasDefaultIndex;
-    let content = '';
+  const attributes = entity.attributes;
+  const names = getNames(entity)
+  const hasDefaultIndex = entity.hasDefaultIndex;
+  const manyToOne = entity.manyToOne;
+  let content = '';
 
-    // headers
-    let hasExcludeImport = false
-    attributes.map((attribute) => attribute.exclude ? hasExcludeImport = true : null)
-
-    const ExcluceImport = hasExcludeImport ? `import { Exclude } from 'class-transformer';` : '';
-    const header = `
-    import { ApiProperty } from '@nestjs/swagger';
-    ${ExcluceImport}
-  
-    export class ${names.uperFL}Entity {
-    `
-    content = content.concat(header);
-
-    // body
-    let bodyHeader = '';
-    if (hasDefaultIndex) {
-        bodyHeader += `
-      @ApiProperty({ type: 'number', example: 1 })
-      readonly id!: number;
+  // headers
+  let header = '';
+  let relations = '';
+  if (manyToOne.length > 0) {
+    manyToOne.map((item) => {
+      const itemNames = getNames({ name: item.value })
+      const importEntity = `import type { ${itemNames.uperFL}Entity } from '@modules/${itemNames.fileName}/domain/entities/${itemNames.fileName}.entity';
       `
+      header = header.concat(importEntity);
+    });
+  }
+  content = content.concat(header);
+
+  // body
+  let bodyHeader = `export class ${names.uperFL}Entity {`;
+  content = content.concat(bodyHeader);
+  if (hasDefaultIndex) {
+    const idParam = `
+      readonly id?: number;
+      `
+    content = content.concat(idParam);
+  }
+
+  attributes.map((attribute) => {
+    const name = attribute.name;
+    const attributeType = attribute.type;
+    const notNull = attribute.notNull;
+    let type = '';
+
+    if (attributeType == 'varchar') {
+      type = 'string'
     }
-    content = content.concat(bodyHeader);
-
-    attributes.map((attribute) => {
-        const name = attribute.name;
-        const example = attribute.example;
-        const attributeType = attribute.type;
-        const exclude = attribute.exclude;
-        const format = attribute.format;
-        const notNull = attribute.notNull;
-        let type = '';
-
-        if (attributeType == 'varchar') {
-            type = 'string'
-        }
-        if (attributeType == 'float' || attributeType == 'int') {
-            type = 'number'
-        }
-
-        let attributeItem = '';
-        const notNullExpresion = notNull ? '!' : '?';
-
-        // type: datetime 
-        if (format == 'date-time') {
-            let decorator = `
-        @ApiProperty({
-          type: 'string',
-          format: 'date-time',
-          example: '${example}',
-        })
-        `
-            if (exclude) {
-                decorator = `@Exclude({ toPlainOnly: true })`
-            }
-            attributeItem = `
-        ${decorator}
-        readonly ${name}${notNullExpresion}: Date;
-        `
-            // other types
-        } else {
-
-            let decorator = `
-        @ApiProperty({ type: '${type}', example: '${example}' })
-        `
-            if (exclude) {
-                decorator = `@Exclude({ toPlainOnly: true })`
-            }
-
-            attributeItem = `
-        ${decorator}
-        readonly ${name}${notNullExpresion}: ${type};    
-        `
-        }
-        content = content.concat(attributeItem);
-    })
-
-    // footer
-    const footer = `
+    if (attributeType == 'float' || attributeType == 'int') {
+      type = 'number'
     }
-  
+    const notNullExpresion = notNull ? '!' : '?';
+    let attributeItem = `readonly ${name}${notNullExpresion}: ${type};
+    `;
+    content = content.concat(attributeItem);
+  });
+
+  if (manyToOne.length > 0) {
+    manyToOne.map((item) => {
+      const itemNames = getNames({ name: item.value })
+      let attributeItem = `
+      readonly ${itemNames.name}?: ${itemNames.uperFL}Entity;
+      readonly ${itemNames.name}Id?: number;
+      `;
+      content = content.concat(attributeItem);
+    });
+  }
+  const constructorPart = `
+  constructor(
+  `;
+  content = content.concat(constructorPart);
+
+  attributes.map((attribute) => {
+    const name = attribute.name;
+    const attributeType = attribute.type;
+    const notNull = attribute.notNull;
+    let type = '';
+
+    if (attributeType == 'varchar') {
+      type = 'string'
+    }
+    if (attributeType == 'float' || attributeType == 'int') {
+      type = 'number'
+    }
+    let attributeItem = `${name}: ${type},
+    `;
+    content = content.concat(attributeItem);
+  });
+  if (hasDefaultIndex) {
+    const idParam = `id?: number,`
+    content = content.concat(idParam);
+  }
+
+  if (manyToOne.length > 0) {
+    manyToOne.map((item) => {
+      const itemNames = getNames({ name: item.value })
+      let attributeItem = `
+      ${itemNames.name}?: ${itemNames.uperFL}Entity,
+      ${itemNames.name}Id?: number,
+      `;
+      content = content.concat(attributeItem);
+    });
+  }
+
+  const endConstructorPart = `) {
+  `;
+  content = content.concat(endConstructorPart);
+
+  attributes.map((attribute) => {
+    const name = attribute.name;
+    const attributeType = attribute.type;
+
+    if (attributeType == 'varchar') {
+      type = 'string'
+    }
+    if (attributeType == 'float' || attributeType == 'int') {
+      type = 'number'
+    }
+    let attributeItem = `this.${name} = ${name};
+    `;
+    content = content.concat(attributeItem);
+  });
+
+  if (hasDefaultIndex) {
+    const idParam = `this.id = id;`
+    content = content.concat(idParam);
+  }
+
+  if (manyToOne.length > 0) {
+    manyToOne.map((item) => {
+      const itemNames = getNames({ name: item.value })
+      let attributeItem = `
+      this.${itemNames.name} = ${itemNames.name};
+      this.${itemNames.name}Id = ${itemNames.name}Id;`;
+      content = content.concat(attributeItem);
+    });
+  }
+
+  // footer
+  const footer = `
+      }
+    }
     `
-    content = content.concat(footer);
-    return content;
+  content = content.concat(footer);
+  return content;
 }
 
 module.exports = { entityGenerator };

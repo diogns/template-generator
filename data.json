@@ -1,6 +1,6 @@
 [
   {
-    "name": "account",
+    "name": "user",
     "hasDefaultIndex": true,
     "index": "",
     "attributes": [
@@ -57,7 +57,7 @@
     "oneToMany": [],
     "manyToOne": [
       {
-        "value": "account"
+        "value": "user"
       }
     ]
   }

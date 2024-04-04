@@ -7,8 +7,6 @@ const data = require('./data.json');
 const { build } = require('./generators/helpers');
 const { srcGenerator } = require('./generators/src/src');
 
-
-
 const main = () => {
   const projectStructureSeeds = projectStructure[0].seeds;
   projectStructureSeeds.map((seed) => {

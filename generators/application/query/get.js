@@ -13,10 +13,10 @@ const getQueryGenerator = (entity) => {
   let content = `
   import { Inject, InternalServerErrorException, Logger } from '@nestjs/common';
   import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-  import { ${names.uperFL}NotFoundException } from '@module/domain/exceptions/${names.fileName}.exception';
-  import { ${names.uperFL}QueriesRepository } from '@module/domain/repositories/${names.fileName}';
-  import { ${names.uperFL}QueriesImplement } from '@module/infrastructure/repositories/${names.fileName}';
-  import { List${names.uperFL}sResponseDTO } from '@module/interfaces/http/v1/list-${names.fileName}s/dto/list-${names.fileName}s.response';
+  import { ${names.uperFL}NotFoundException } from '@${names.fileName}/domain/exceptions/${names.fileName}.exception';
+  import { ${names.uperFL}QueriesRepository } from '@${names.fileName}/domain/repositories/${names.fileName}.repository';
+  import { ${names.uperFL}QueriesImplement } from '@${names.fileName}/infrastructure/repositories/${names.fileName}.repository';
+  import { List${names.uperFL}sResponseDTO } from '@${names.fileName}/interfaces/http/v1/list-${names.fileName}s/dto/list-${names.fileName}s.response';
   
   export class Get${names.uperFL}ByIdQuery {
     constructor(readonly id: number) {}

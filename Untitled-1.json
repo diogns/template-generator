@@ -11,10 +11,11 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@modules/*": ["src/modules/*"],
-      "@helpers/*": ["src/helpers/*"],
-      "@core/*": ["src/core/*"]
-
+      "@user/application/*": ["src/user/application/*"],
+      "@user/domain/*": ["src/user/domain/*"],
+      "@user/infrastructure/*": ["src/user/infrastructure/*"],
+      "@user/interfaces/*": ["src/user/interfaces/*"],
+      "@helpers/*": ["src/helpers/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

@@ -1,119 +1,86 @@
-const { getNames, crud } = require('../helpers');
+const { getNames } = require('../helpers');
 
-const exceptionGenerator = (entity) => {
+const infrastructureExceptionGenerator = (entity) => {
   const names = getNames(entity)
-  let content = '';
+  let content = `
+  export enum InfrastructureExceptionCode {
+    // ${names.uperFL}s
+    Add${names.uperFL}DatabaseExceptionCode = 'ADD_${names.nameUper}_DATABASE_EXCEPTION',
+    Update${names.uperFL}DatabaseExceptionCode = 'UPDATE_${names.nameUper}_DATABASE_EXCEPTION',
+    Remove${names.uperFL}DatabaseExceptionCode = 'REMOVE_${names.nameUper}_DATABASE_EXCEPTION',
+    Get${names.uperFL}ByIdDatabaseExceptionCode = 'GET_${names.nameUper}_BY_ID_DATABASE_EXCEPTION',
+    List${names.uperFL}sDatabaseExceptionCode = 'LIST_${names.nameUper}S_DATABASE_EXCEPTION',
+  }
+  `;
 
-  // headers
-  const header = `
-    import {
-        InfrastructureException,
-        InfrastructureExceptionCode,
-      } from './infrastructure.exception';
-    `
-  content = content.concat(header);
-
-  // body
-  crud.map((method) => {
-    const action = method.action;
-    const type = method.type;
-    const name = method.name;
-    const expression = method.expression;
-    let classAndConstructor = '';
-    let when = '';
-    if (type == 'command') {
-      classAndConstructor = `${action}${names.uperFL}`;
-      when = `${expression} ${names.name}`;
-    }
-    if (type == 'query') {
-      if (name == 'get') {
-        classAndConstructor = `${action}${names.uperFL}ById`;
-        when = `${expression} ${names.name}`;
-      }
-      if (name == 'list') {
-        classAndConstructor = `${action}${names.uperFL}s`;
-        when = `${expression} ${names.name}s`;
-      }
-    }
-
-    const exceptionItem = `
-    export class ${classAndConstructor}DatabaseException extends InfrastructureException {
-      code: string;
-      constructor() {
-        super(${classAndConstructor}DatabaseException.getMessage());
-        this.code = InfrastructureExceptionCode.${classAndConstructor}DatabaseExceptionCode;
-      }
-      static getMessage(): string {
-        return 'There was an error in the database when ${when}';
-      }
-    }
-    `
-    content = content.concat(exceptionItem);
-  })
   return content;
 }
 
-const infrastructureExceptionGenerator = (entities) => {
-  let content = '';
 
-  // headers
-  const header = `
-  export enum InfrastructureExceptionCode {
-    // General
-    Default = 'DEFAULT_INFRA_EXCEPTION',
-    
-  `
-  content = content.concat(header);
+const exceptionGenerator = (entity) => {
+  const names = getNames(entity)
 
-  // body
-  entities.map((entity) => {
-    const names = getNames(entity)
+  let content = `
+  import { InfrastructureException } from '@core/infrastructure/exception';
+import { InfrastructureExceptionCode } from './infrastructure.exception';
 
-    let entitBody = `
-    
-    // ${names.pluralUperFL}`
-    crud.map((method) => {
-      const action = method.action;
-      const type = method.type;
-      const name = method.name;
-      const actionUper = method.actionUper;
-      let actionDefinition = '';
-
-      if (type == 'command') {
-        actionDefinition = `
-        ${action}${names.uperFL}DatabaseExceptionCode = '${actionUper}_${names.nameUper}_DATABASE_EXCEPTION',`
-      }
-      if (type == 'query') {
-        if (name == 'get') {
-          actionDefinition = `
-          ${action}${names.uperFL}ByIdDatabaseExceptionCode = '${actionUper}_${names.nameUper}_BY_ID_DATABASE_EXCEPTION',`
-        }
-        if (name == 'list') {
-          actionDefinition = `
-          ${action}${names.uperFL}sDatabaseExceptionCode = '${actionUper}_${names.nameUper}S_DATABASE_EXCEPTION',`
-        }
-      }
-
-      entitBody = entitBody.concat(actionDefinition);
-    })
-    content = content.concat(entitBody);
-
-  })
-
-  // footer
-  const footer = `
+export class Get${names.uperFL}ByIdDatabaseException extends InfrastructureException {
+  code: string;
+  constructor() {
+    super(Get${names.uperFL}ByIdDatabaseException.getMessage());
+    this.code =
+      InfrastructureExceptionCode.Get${names.uperFL}ByIdDatabaseExceptionCode;
   }
-  
-  export abstract class InfrastructureException extends Error {
-    code: string;
-  
-    constructor(message?: string) {
-      super(message);
-      this.code = InfrastructureExceptionCode.Default;
-    }
+  static getMessage(): string {
+    return 'There was an error in the database when getting a ${names.name}';
   }
-  `
-  content = content.concat(footer);
+}
+
+export class List${names.uperFL}sDatabaseException extends InfrastructureException {
+  code: string;
+  constructor() {
+    super(List${names.uperFL}sDatabaseException.getMessage());
+    this.code = InfrastructureExceptionCode.List${names.uperFL}sDatabaseExceptionCode;
+  }
+  static getMessage(): string {
+    return 'There was an error in the database when listing ${names.name}s';
+  }
+}
+
+export class Add${names.uperFL}DatabaseException extends InfrastructureException {
+  code: string;
+  constructor() {
+    super(Add${names.uperFL}DatabaseException.getMessage());
+    this.code = InfrastructureExceptionCode.Add${names.uperFL}DatabaseExceptionCode;
+  }
+  static getMessage(): string {
+    return 'There was an error in the database when adding new ${names.name}';
+  }
+}
+
+export class Update${names.uperFL}DatabaseException extends InfrastructureException {
+  code: string;
+  constructor() {
+    super(Update${names.uperFL}DatabaseException.getMessage());
+    this.code = InfrastructureExceptionCode.Update${names.uperFL}DatabaseExceptionCode;
+  }
+  static getMessage(): string {
+    return 'There was an error in the database when updating a ${names.name}';
+  }
+}
+
+export class Remove${names.uperFL}DatabaseException extends InfrastructureException {
+  code: string;
+  constructor() {
+    super(Remove${names.uperFL}DatabaseException.getMessage());
+    this.code = InfrastructureExceptionCode.Remove${names.uperFL}DatabaseExceptionCode;
+  }
+  static getMessage(): string {
+    return 'There was an error in the database when removing a ${names.name}';
+  }
+}
+
+  `;
 
   return content;
 }

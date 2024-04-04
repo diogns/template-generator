@@ -48,6 +48,12 @@
         "name": "repositories",
         "content": "",
         "seeds": []
+      },
+      {
+        "type": "dir",
+        "name": "exceptions",
+        "content": "",
+        "seeds": []
       }
     ]
   },
