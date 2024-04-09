@@ -7,7 +7,7 @@ const { listQueryGenerator } = require('./query/list');
 
 const { getNames, crud, fileAndFolderObject } = require('../helpers');
 
-const applicationGenerator = (ffobject, entity, entities) => {
+const applicationGenerator = (ffobject, entity, entitiesByName) => {
   let ffobjectSeeds = ffobject.seeds;
   ffobjectSeeds.map((seed) => {
     let seedName = seed.name;
@@ -23,7 +23,7 @@ const applicationGenerator = (ffobject, entity, entities) => {
           newFfobjectCommand.type = 'file';
           newFfobjectCommand.name = `${methodName}-${names.fileName}.command.ts`;
           if (methodName == 'add') {
-            newFfobjectCommand.content = addCommandGenerator(entity);
+            newFfobjectCommand.content = addCommandGenerator(entity, entitiesByName);
           }
           if (methodName == 'remove') {
             newFfobjectCommand.content = removeCommandGenerator(entity);
@@ -46,7 +46,7 @@ const applicationGenerator = (ffobject, entity, entities) => {
           newFfobjectQuery.type = 'file';
           if (methodName == 'get') {
             newFfobjectQuery.name = `${methodName}-${names.fileName}-by-id.query.ts`;
-            newFfobjectQuery.content = getQueryGenerator(entity);
+            newFfobjectQuery.content = getQueryGenerator(entity, entitiesByName);
           }
           if (methodName == 'list') {
             newFfobjectQuery.name = `${methodName}-${names.fileName}s.query.ts`;

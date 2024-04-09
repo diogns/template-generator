@@ -32,7 +32,7 @@ const moduleGenerator = (ffobject, entities) => {
 
       // application
       if (childName == 'application') {
-        applicationGenerator(child, entitiesByName[seedName], entities)
+        applicationGenerator(child, entitiesByName[seedName], entitiesByName)
       }
 
       // domain

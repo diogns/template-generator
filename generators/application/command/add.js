@@ -1,6 +1,6 @@
 const { getNames } = require('../../helpers');
 
-const addCommandGenerator = (entity) => {
+const addCommandGenerator = (entity, entitiesByName) => {
   const names = getNames(entity)
   const attributes = entity.attributes;
   const manyToOne = entity.manyToOne;
@@ -36,7 +36,7 @@ const addCommandGenerator = (entity) => {
   let relations = '';
   let commandIdsConstructor = '';
   let commandIdsEntity = '';
-  let responsesDTO = '';
+  let responsesDTOEntityRelated = '';
   let responsesEntity = '';
   if (manyToOne.length > 0) {
     manyToOne.map((item) => {
@@ -49,16 +49,36 @@ const addCommandGenerator = (entity) => {
       command.${itemNames.name}Id,
       `;
 
-      const responseDTO = `
+      
+      const entityRelated = entitiesByName[itemNames.name];
+
+      const attributesEntityRelated = entityRelated.attributes;
+      const hasDefaultIndexEntityRelated = entityRelated.hasDefaultIndex;
+
+      let idEntityRelated = '';
+      if (hasDefaultIndexEntityRelated) {
+        idEntityRelated = `data.${itemNames.name}.id,`;
+      }
+
+      let responseEntityRelated = '';
+      attributesEntityRelated.map((attribute) => {
+        const attributeName = attribute.name;
+        let attributeItemResponse = `data.${itemNames.name}.${attributeName},
+        `;
+        responseEntityRelated = responseEntityRelated.concat(attributeItemResponse);
+      });
+
+      const responseDTOEntityRelated = `
       let ${itemNames.name} = null;
       if (data.${itemNames.name}) {
-        user = new ${itemNames.uperFL}ResponseDTO(
-          data.user.id,
-          data.user.username,
-          data.user.name,
+        ${itemNames.name} = new ${itemNames.uperFL}ResponseDTO(
+          ${idEntityRelated}
+          ${responseEntityRelated}
         );
       }
       `;
+
+
 
       const responseEntity = `${itemNames.name},
       `;
@@ -66,7 +86,7 @@ const addCommandGenerator = (entity) => {
       relations = relations.concat(addRelation);
       commandIdsConstructor = commandIdsConstructor.concat(idConstructor);
       commandIdsEntity = commandIdsEntity.concat(idCommand);
-      responsesDTO = responsesDTO.concat(responseDTO);
+      responsesDTOEntityRelated = responsesDTOEntityRelated.concat(responseDTOEntityRelated);
       responsesEntity = responsesEntity.concat(responseEntity);
 
     });
@@ -105,7 +125,7 @@ const addCommandGenerator = (entity) => {
 
   @CommandHandler(Add${names.uperFL}Command)
   export class Add${names.uperFL}Handler
-    implements ICommandHandler<Add${names.uperFL}Command, Add${names.uperFL}ResponseDTO>
+    implements ICommandHandler<Add${names.uperFL}Command, Mod${names.uperFL}ResponseDTO>
   {
     constructor(
       @Inject(${names.uperFL}CommandsImplement)
@@ -113,7 +133,7 @@ const addCommandGenerator = (entity) => {
       private readonly logger: Logger,
     ) {}
 
-    async execute(command: Add${names.uperFL}Command): Promise<Add${names.uperFL}ResponseDTO> {
+    async execute(command: Add${names.uperFL}Command): Promise<Mod${names.uperFL}ResponseDTO> {
       const ${names.name}Entity = new ${names.uperFL}Entity(
         ${command}
         ${IndexCommand}
@@ -130,14 +150,7 @@ const addCommandGenerator = (entity) => {
 
       const data = result.value;
 
-      let user = null;
-      if (data.user) {
-        user = new UserResponseDTO(
-          data.user.id,
-          data.user.username,
-          data.user.name,
-        );
-      }
+      ${responsesDTOEntityRelated}
   
       return new Mod${names.uperFL}ResponseDTO(
         true,
