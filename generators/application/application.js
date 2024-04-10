@@ -50,7 +50,7 @@ const applicationGenerator = (ffobject, entity, entitiesByName) => {
           }
           if (methodName == 'list') {
             newFfobjectQuery.name = `${methodName}-${names.fileName}s.query.ts`;
-            newFfobjectQuery.content = listQueryGenerator(entity);
+            newFfobjectQuery.content = listQueryGenerator(entity, entitiesByName);
           }
           seed.seeds.push(newFfobjectQuery);
         }

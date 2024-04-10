@@ -102,7 +102,20 @@
             "type": "dir",
             "name": "v1",
             "content": "",
-            "seeds": []
+            "seeds": [
+              {
+                "type": "dir",
+                "name": "dtos",
+                "content": "",
+                "seeds": []
+              },
+              {
+                "type": "dir",
+                "name": "docs",
+                "content": "",
+                "seeds": []
+              }
+            ]
           },
           {
             "type": "file",
@@ -111,12 +124,6 @@
             "seeds": []
           }
         ]
-      },
-      {
-        "type": "file",
-        "name": ".gitkeep",
-        "content": "",
-        "seeds": []
       }
     ]
   },

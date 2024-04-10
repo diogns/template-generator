@@ -1,7 +1,8 @@
 const { fileAndFolderObject } = require('../helpers');
 const { getNames, crud } = require('../helpers');
-const { getControllerGenerator, getDtosGenerator, getDocsGenerator } = require('./get');
-const { addControllerGenerator, addDtosGenerator, addDocsGenerator } = require('./add');
+const { docsGenerator } = require('./docs');
+const { modDtosGenerator, requestDtosGenerator,  responseDtosGenerator } = require('./dtos');
+const { controllerGenerator } = require('./controller');
 
 const interfacesGenerator = (ffobject, entity) => {
   const names = getNames(entity);
@@ -13,84 +14,47 @@ const interfacesGenerator = (ffobject, entity) => {
     if (httpName == 'http') {
       httpSeeds.map((seed2) => {
         const v1Name = seed2.name;
+        const v1Seeds = seed2.seeds;
+
         // v1
         if (v1Name == 'v1') {
-          crud.map((method) => {
-            const action = method.action;
-            const type = method.type;
-            const methodName = method.name;
+          v1Seeds.map((seed3) => {
+            const seed3Name = seed3.name;
 
-            // interface object
-            const newFfobject = JSON.parse(JSON.stringify(fileAndFolderObject));
-            newFfobject.type = 'dir';
+            if (seed3Name == 'docs') {
+              const ffobjectDocs = JSON.parse(JSON.stringify(fileAndFolderObject));
+              ffobjectDocs.type = 'file';
+              ffobjectDocs.name = `${names.fileName}.docs.ts`;
+              ffobjectDocs.content = docsGenerator(entity);
+              seed3.seeds.push(ffobjectDocs);
 
-            // controller
-            const ffobjectController = JSON.parse(JSON.stringify(fileAndFolderObject));
-            ffobjectController.type = 'file';
+            } else if (seed3Name == 'dtos') {
+              const ffobjectDtosMod = JSON.parse(JSON.stringify(fileAndFolderObject));
+              ffobjectDtosMod.type = 'file';
+              ffobjectDtosMod.name = `mod-${names.fileName}.response.ts`;
+              ffobjectDtosMod.content = modDtosGenerator(entity);
 
-            // Docs
-            const ffobjectDocs = JSON.parse(JSON.stringify(fileAndFolderObject));
-            ffobjectDocs.type = 'dir';
-            ffobjectDocs.name = 'docs';
-            const ffobjectDocsSeed = JSON.parse(JSON.stringify(fileAndFolderObject));
-            ffobjectDocsSeed.type = 'file';
+              const ffobjectDtosReq = JSON.parse(JSON.stringify(fileAndFolderObject));
+              ffobjectDtosReq.type = 'file';
+              ffobjectDtosReq.name = `${names.fileName}.request.ts`;
+              ffobjectDtosMod.content = requestDtosGenerator(entity);
 
-            // Dtos
-            const ffobjectDtos = JSON.parse(JSON.stringify(fileAndFolderObject));
-            ffobjectDtos.type = 'dir';
-            ffobjectDtos.name = 'dtos';
-            const ffobjectRequest = JSON.parse(JSON.stringify(fileAndFolderObject));
-            const ffobjectResponse = JSON.parse(JSON.stringify(fileAndFolderObject));
-            ffobjectRequest.type = 'file';
-            ffobjectResponse.type = 'file';
+              const ffobjectDtosRes = JSON.parse(JSON.stringify(fileAndFolderObject));
+              ffobjectDtosRes.type = 'file';
+              ffobjectDtosRes.name = `${names.fileName}.response.ts`;
 
-            if (methodName == 'get') {
-              newFfobject.name = `${methodName}-${names.fileName}-by-id`;
-
-              // controller
-              ffobjectController.name = `${methodName}-${names.fileName}-by-id.controller.ts`;
-              ffobjectController.content = getControllerGenerator(entity);
-
-              // dtos
-              ffobjectRequest.name = `${methodName}-${names.fileName}-by-id.request.ts`;
-              ffobjectResponse.name = `${methodName}-${names.fileName}-by-id.response.ts`;
-
-              // docs
-              ffobjectDocsSeed.name = `${methodName}-${names.fileName}-by-id.docs.ts`;
-              ffobjectDocsSeed.content = getDocsGenerator(entity);
-
-              ffobjectDtos.seeds = [ffobjectRequest, ffobjectResponse]
-              ffobjectDocs.seeds = [ffobjectDocsSeed]
-
+              seed3.seeds.push(ffobjectDtosMod);
+              seed3.seeds.push(ffobjectDtosReq);
+              seed3.seeds.push(ffobjectDtosRes);
             }
 
-            if (methodName == 'add' || methodName == 'list' || methodName == 'update' || methodName == 'remove') {
-              newFfobject.name = `${methodName}-${names.fileName}`;
-
-              // controller
-              ffobjectController.name = `${methodName}-${names.fileName}.controller.ts`;
-              ffobjectController.content = addControllerGenerator(entity);
-
-              // dtos
-              ffobjectRequest.name = `${methodName}-${names.fileName}.request.ts`;
-              ffobjectResponse.name = `${methodName}-${names.fileName}.response.ts`;
-              const dtoContent = addDtosGenerator(entity);
-              ffobjectRequest.content = dtoContent.requestContent;
-              ffobjectResponse.content = dtoContent.responseContent;
-
-              // docs
-              ffobjectDocsSeed.name = `${methodName}-${names.fileName}.docs.ts`;
-              ffobjectDocsSeed.content = addDocsGenerator(entity);
-
-              ffobjectDtos.seeds = [ffobjectRequest, ffobjectResponse]
-              ffobjectDocs.seeds = [ffobjectDocsSeed]
-
-            }
-
-            newFfobject.seeds = [ffobjectDtos, ffobjectDocs, ffobjectController]
-
-            seed2.seeds.push(newFfobject)
           });
+
+          const ffobjectController = JSON.parse(JSON.stringify(fileAndFolderObject));
+          ffobjectController.type = 'file';
+          ffobjectController.name = `${names.fileName}.controller.ts`;
+          ffobjectController.content = controllerGenerator(entity);
+          seed2.seeds.push(ffobjectController);
         }
       });
     }

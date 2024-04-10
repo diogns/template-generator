@@ -105,7 +105,6 @@ const getQueryGenerator = (entity, entitiesByName) => {
     IndexCommand = IndexCommand.concat(idParam);
     responseIndexCommand = responseIndexCommand.concat(idResponse);
   }
-  
 
   let content = `
   import { Inject, InternalServerErrorException, Logger } from '@nestjs/common';
