@@ -63,6 +63,11 @@ const build = (structure, path = './') => {
   }
 }
 
+const lintAndExecute = (command) => {
+  fs.cpSync(src, dest, {recursive: true});
+
+}
+
 fileAndFolderObject = { type: '', name: '', content: '', seeds: [] }
 
 const crud = [
@@ -108,4 +113,4 @@ const crud = [
   },
 ];
 
-module.exports = { getNames, build, fileAndFolderObject, crud };
+module.exports = { getNames, build, fileAndFolderObject, crud, lintAndExecute };

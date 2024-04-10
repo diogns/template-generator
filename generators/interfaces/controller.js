@@ -41,7 +41,7 @@ const controllerGenerator = (entity) => {
   import { List${names.uperFL}sQuery } from '@modules/${names.fileName}/application/queries/list-${names.fileName}s.query';
   import { Add${names.uperFL}Command } from '@modules/${names.fileName}/application/commands/add-${names.fileName}.command';
   import { Update${names.uperFL}Command } from '@modules/${names.fileName}/application/commands/update-${names.fileName}.command';
-  import { Remove${names.uperFL}Command } from '@modules/${names.fileName}/application/commands/remove-${names.fileName}.command';
+  import { Remove${names.uperFL}Command } from '@modules/  /application/commands/remove-${names.fileName}.command';
   
   import { idParamDto } from '@core/interfaces/dtos/id-param.request';
   import { ${names.uperFL}RequestDTO } from './dtos/${names.fileName}.request';

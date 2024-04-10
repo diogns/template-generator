@@ -49,8 +49,38 @@ const requestDtosGenerator = (entity) => {
   let addAtributesPart = '';
   attributes.map((attribute) => {
     const name = attribute.name;
-    addAtributesPart = addAtributesPart.concat(`${names.name}.${name},
-    `);
+    const attributeType = attribute.type;
+    const unique = attribute.unique;
+    let type = '';
+    let attributeItem = '';
+
+    if (attributeType == 'varchar') {
+      type = 'string'
+    }
+    if (attributeType == 'float' || attributeType == 'int') {
+      type = 'number'
+    }
+
+    if (unique) {
+      const indexPart = '@Index({ unique: true })';
+      attributeItem = attributeItem.concat(indexPart);
+    }
+
+    let columnPart = '';
+    if (attributeType == 'varchar') {
+      columnPart = `@Column({ type: 'varchar', length: 100 })
+      `;
+    } else {
+      columnPart = `@Column({ type: '${attributeType}' })
+      `;
+    }
+    attributeItem = attributeItem.concat(columnPart);
+
+    const itemPart = `${name}!: ${type};
+
+    `;
+    attributeItem = attributeItem.concat(itemPart);
+    content = content.concat(attributeItem);
   })
 
   let content = `
