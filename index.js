@@ -1,25 +1,23 @@
 
-const fs = require('fs');
 const rimraf = require("rimraf");
 
-const projectStructure = require('./projectStructure.json');
-const data = require('./data.json');
+const projectStructure = require('./data/projectStructure.json');
+const entities = require('./data/entities.json');
+const options = require('./data/options.json');
+
 const { build, lintAndExecute } = require('./generators/helpers');
 const { srcGenerator } = require('./generators/src/src');
+const { projectGenerator } = require('./generators/project/project');
 
 const main = async () => {
   const projectStructureSeeds = projectStructure[0].seeds;
   projectStructureSeeds.map((seed) => {
     let seedName = seed.name;
-    let seedType = seed.type;
-
-    // ./src
-    if (seedType == 'file') {
-      const content = fs.readFileSync(`./generators/src/assets/${seedName}`, 'utf8');
-      seed.content = content;
-    }
+    
     if (seedName == 'src') {
-      srcGenerator(seed, data, projectStructure)
+      srcGenerator(seed, entities, projectStructure)
+    } else {
+      projectGenerator(seed, options)
     }
   })
 

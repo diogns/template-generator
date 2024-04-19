@@ -1,4 +1,4 @@
-const moduleJsonObject = require('../../module.json');
+const moduleJsonObject = require('../../data/module.json');
 const { fileAndFolderObject, getNames } = require('../helpers');
 
 const { domainGenerator } = require('../domain/domain');

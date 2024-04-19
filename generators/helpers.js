@@ -3,7 +3,7 @@ const rimraf = require("rimraf");
 const { promisify } = require('util');
 const { exec } = require('child_process');
 
-const options = require('../options.json');
+const options = require('../data/options.json');
 
 const execPromise = promisify(exec);
 
