@@ -1,7 +1,7 @@
-const { getNames } = require('../helpers');
+const { getNames } = require("../helpers");
 
 const modDtosGenerator = (entity) => {
-  const names = getNames(entity)
+  const names = getNames(entity);
   let content = `
   import { ApiProperty } from '@nestjs/swagger';
   import { IsBoolean } from 'class-validator';
@@ -20,68 +20,82 @@ const modDtosGenerator = (entity) => {
       this.${names.name} = ${names.name};
     }
   }  
-  `
+  `;
   return content;
-}
+};
 
 const requestDtosGenerator = (entity) => {
-  const names = getNames(entity)
+  const names = getNames(entity);
 
   const manyToOne = entity.manyToOne;
   const attributes = entity.attributes;
+  const hasDefaultIndex = entity.hasDefaultIndex;
 
-  let relations = '';
-  let addRelation = '';
+  let atributesPart = "";
+
+  if (hasDefaultIndex) {
+    const indexPart = `
+    @ApiProperty({ type: 'number', required: false, example: 1 })
+    @IsOptional()
+    @IsNumber()
+    id?: number;
+    `;
+    atributesPart = atributesPart.concat(indexPart);
+  }
+
+  attributes.map((attribute) => {
+    const name = attribute.name;
+    const attributeType = attribute.type;
+    const notNull = attribute.notNull;
+    const example = attribute.example;
+
+    let attributeItem = "";
+    let notNullPart = "";
+    let requiredPart = "false";
+    let optionalPart = "false";
+
+    if (notNull) {
+      notNullPart = "!";
+      requiredPart = "true";
+      optionalPart = "@IsNotEmpty()";
+    } else {
+      notNullPart = "?";
+      optionalPart = "@IsOptional()";
+    }
+
+    if (attributeType == "varchar") {
+      attributeItem = `
+      ${optionalPart}
+      @IsString()
+      @MinLength(3)
+      @ApiProperty({ type: 'string', required: ${requiredPart}, example: '${example}' })
+      ${name}${notNullPart}: string;
+      `;
+    }
+    if (attributeType == "float" || attributeType == "int") {
+      attributeItem = `
+      @ApiProperty({ type: 'number', required: ${requiredPart}, example: '${example}' })
+      @IsOptional()
+      @IsNumber()
+      ${name}${notNullPart}: number;
+      `;
+    }
+
+    atributesPart = atributesPart.concat(attributeItem);
+  });
 
   if (manyToOne.length > 0) {
     manyToOne.map((item) => {
-      const itemNames = getNames({ name: item.value })
-      addRelation = `
+      const itemNames = getNames({ name: item.value });
+      const addRelation = `
       @ApiProperty({ type: 'number', required: false, example: 1 })
       @IsOptional()
       @IsNumber()
       ${itemNames.name}Id?: number;
-      `
-      relations = relations.concat(addRelation);
+      `;
+      atributesPart = atributesPart.concat(addRelation);
     });
   }
-
-  let addAtributesPart = '';
-  attributes.map((attribute) => {
-    const name = attribute.name;
-    const attributeType = attribute.type;
-    const unique = attribute.unique;
-    let type = '';
-    let attributeItem = '';
-
-    if (attributeType == 'varchar') {
-      type = 'string'
-    }
-    if (attributeType == 'float' || attributeType == 'int') {
-      type = 'number'
-    }
-
-    if (unique) {
-      const indexPart = '@Index({ unique: true })';
-      attributeItem = attributeItem.concat(indexPart);
-    }
-
-    let columnPart = '';
-    if (attributeType == 'varchar') {
-      columnPart = `@Column({ type: 'varchar', length: 100 })
-      `;
-    } else {
-      columnPart = `@Column({ type: '${attributeType}' })
-      `;
-    }
-    attributeItem = attributeItem.concat(columnPart);
-
-    const itemPart = `${name}!: ${type};
-
-    `;
-    attributeItem = attributeItem.concat(itemPart);
-    content = content.concat(attributeItem);
-  })
 
   let content = `
   import { ApiProperty } from '@nestjs/swagger';
@@ -94,83 +108,122 @@ const requestDtosGenerator = (entity) => {
   } from 'class-validator';
   
   export class ${names.uperFL}RequestDTO {
-    @ApiProperty({ type: 'number', required: false, example: 1 })
-    @IsOptional()
-    @IsNumber()
-    id?: number;
-  
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(3)
-    @ApiProperty({ type: 'string', required: true, example: 'flag' })
-    flag!: string;
-  
-    @ApiProperty({ type: 'number', required: true, example: 25 })
-    @IsNumber()
-    type!: number;
-  
-    ${relations}
-  }   
-  `
+    ${atributesPart}
+  }
+  `;
   return content;
-}
+};
 
 const responseDtosGenerator = (entity) => {
-  const names = getNames(entity)
-  const attributes = entity.attributes;
-  let response = '';
-  attributes.map((attribute) => {
-    const attributeName = attribute.name;
-    let attributeItemResponse = `data.${attributeName},
-    `;
-    response = response.concat(attributeItemResponse);
-  });
-  let content = `
-  import { Inject, InternalServerErrorException, Logger } from '@nestjs/common';
-  import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-  import { ${names.uperFL}CommandsRepository } from '@${names.fileName}/domain/repositories/${names.fileName}.repository';
-  import { ${names.uperFL}CommandsImplement } from '@${names.fileName}/infrastructure/repositories/${names.fileName}.repository';
-  import { List${names.uperFL}sResponseDTO } from '@${names.fileName}/interfaces/http/v1/list-${names.fileName}s/dto/list-${names.fileName}s.response';
-  import { Remove${names.uperFL}ResponseDTO } from '@${names.fileName}/interfaces/http/v1/remove-${names.fileName}/dto/remove-${names.fileName}.response';
-  
-  export class Remove${names.uperFL}Command {
-    constructor(readonly id: number) {}
-  }
-  
-  @CommandHandler(Remove${names.uperFL}Command)
-  export class Remove${names.uperFL}Handler
-    implements ICommandHandler<Remove${names.uperFL}Command, Remove${names.uperFL}ResponseDTO>
-  {
-    constructor(
-      @Inject(${names.uperFL}CommandsImplement)
-      private readonly ${names.name}Repository: ${names.uperFL}CommandsRepository,
-      private readonly logger: Logger,
-    ) {}
-  
-    async execute(command: Remove${names.uperFL}Command): Promise<Remove${names.uperFL}ResponseDTO> {
-      const result = await this.${names.name}Repository.remove${names.uperFL}(command.id);
-      if (result.isErr()) {
-        this.logger.warn(result.error, 'Remove${names.uperFL}Handler.execute');
-        throw new InternalServerErrorException(
-          result.error.message,
-          result.error.code,
-        );
-      }
-  
-      const data = result.value;
-  
-      return new Remove${names.uperFL}ResponseDTO(
-        true,
-        new List${names.uperFL}sResponseDTO(
-          ${response}
-        ),
-      );
-    }
-  }  
-  `
+  const names = getNames(entity);
 
+  const manyToOne = entity.manyToOne;
+  const attributes = entity.attributes;
+  const hasDefaultIndex = entity.hasDefaultIndex;
+
+  let atributesPart = "";
+  let constructorArgs = "";
+  let constructorSetting = "";
+  if (hasDefaultIndex) {
+    const indexPart = `
+    @ApiProperty({ type: 'number', example: 1 })
+    id: number;
+    `;
+    const arg = `id: number,
+    `;
+    const setting = `this.id = id;
+    `;
+
+    atributesPart = atributesPart.concat(indexPart);
+    constructorArgs = constructorArgs.concat(arg);
+    constructorSetting = constructorSetting.concat(setting);
+  }
+
+  attributes.map((attribute) => {
+    const name = attribute.name;
+    const attributeType = attribute.type;
+    const example = attribute.example;
+
+    let attributeItem = "";
+    let arg = '';
+    let setting = '';
+
+
+    if (attributeType == "varchar") {
+      attributeItem = `
+      @IsString()
+      @ApiProperty({ type: 'string', example: '${example}' })
+      ${name}: string;
+      `;
+      arg = `${name}: string,
+      `;
+      setting = `this.${name} = ${name};
+      `;
+    }
+    if (attributeType == "float" || attributeType == "int") {
+      attributeItem = `
+      @IsNumber()
+      @ApiProperty({ type: 'number', example: ${example} })
+      ${name}: number;
+      `;
+      arg = `${name}: number,
+      `;
+      setting = `this.${name} = ${name};
+      `;
+    }
+
+
+    atributesPart = atributesPart.concat(attributeItem);
+    constructorArgs = constructorArgs.concat(arg);
+    constructorSetting = constructorSetting.concat(setting);
+  });
+
+  let importRelation = "";
+
+  if (manyToOne.length > 0) {
+    manyToOne.map((item) => {
+      const itemNames = getNames({ name: item.value });
+      const relation = `
+      import type { ${itemNames.uperFL}ResponseDTO } from '@modules/${itemNames.fileName}/interfaces/http/v1/dtos/${itemNames.fileName}.response';`;
+
+      const attribute = `
+      ${itemNames.name}?: ${itemNames.uperFL}ResponseDTO;`;
+
+      const arg = `
+      ${itemNames.name}?: ${itemNames.uperFL}ResponseDTO,`;
+
+      const constructorRelation = `
+      this.${itemNames.name} = ${itemNames.name};`;
+
+      importRelation = importRelation.concat(relation);
+      atributesPart = atributesPart.concat(attribute);
+      constructorArgs = constructorArgs.concat(arg);
+      constructorSetting = constructorSetting.concat(constructorRelation);
+    });
+  }
+
+  let content = `
+  import { ApiProperty } from '@nestjs/swagger';
+  import { IsString, IsNumber } from 'class-validator';
+  ${importRelation}
+  
+  
+  export class ${names.uperFL}ResponseDTO {
+    ${atributesPart}
+
+    constructor(
+      ${constructorArgs}
+    ) {
+      ${constructorSetting}
+    }
+  }
+  `;
 
   return content;
-}
+};
 
-module.exports = { modDtosGenerator, requestDtosGenerator,  responseDtosGenerator };
+module.exports = {
+  modDtosGenerator,
+  requestDtosGenerator,
+  responseDtosGenerator,
+};

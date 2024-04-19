@@ -36,7 +36,6 @@ const updateCommandGenerator = (entity) => {
   let relations = '';
   let commandIdsConstructor = '';
   let commandIdsEntity = '';
-  let responsesDTO = '';
   let responsesEntity = '';
   if (manyToOne.length > 0) {
     manyToOne.map((item) => {
@@ -49,24 +48,12 @@ const updateCommandGenerator = (entity) => {
       command.${itemNames.name}Id,
       `;
 
-      const responseDTO = `
-      let ${itemNames.name} = null;
-      if (data.${itemNames.name}) {
-        user = new ${itemNames.uperFL}ResponseDTO(
-          data.user.id,
-          data.user.username,
-          data.user.name,
-        );
-      }
-      `;
-
       const responseEntity = `${itemNames.name},
       `;
 
       relations = relations.concat(addRelation);
       commandIdsConstructor = commandIdsConstructor.concat(idConstructor);
       commandIdsEntity = commandIdsEntity.concat(idCommand);
-      responsesDTO = responsesDTO.concat(responseDTO);
       responsesEntity = responsesEntity.concat(responseEntity);
 
     });

@@ -1,7 +1,7 @@
 const { fileAndFolderObject } = require('../helpers');
 const { getNames, crud } = require('../helpers');
 const { docsGenerator } = require('./docs');
-const { modDtosGenerator, requestDtosGenerator,  responseDtosGenerator } = require('./dtos');
+const { modDtosGenerator, requestDtosGenerator, responseDtosGenerator } = require('./dtos');
 const { controllerGenerator } = require('./controller');
 
 const interfacesGenerator = (ffobject, entity) => {
@@ -37,11 +37,12 @@ const interfacesGenerator = (ffobject, entity) => {
               const ffobjectDtosReq = JSON.parse(JSON.stringify(fileAndFolderObject));
               ffobjectDtosReq.type = 'file';
               ffobjectDtosReq.name = `${names.fileName}.request.ts`;
-              ffobjectDtosMod.content = requestDtosGenerator(entity);
+              ffobjectDtosReq.content = requestDtosGenerator(entity);
 
               const ffobjectDtosRes = JSON.parse(JSON.stringify(fileAndFolderObject));
               ffobjectDtosRes.type = 'file';
               ffobjectDtosRes.name = `${names.fileName}.response.ts`;
+              ffobjectDtosRes.content = responseDtosGenerator(entity);
 
               seed3.seeds.push(ffobjectDtosMod);
               seed3.seeds.push(ffobjectDtosReq);

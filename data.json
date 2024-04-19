@@ -46,7 +46,7 @@
       },
       {
         "name": "type",
-        "example": "type",
+        "example": 2,
         "type": "int",
         "unique": false,
         "exclude": false,

@@ -1,13 +1,13 @@
 
 const fs = require('fs');
-var rimraf = require("rimraf");
+const rimraf = require("rimraf");
 
 const projectStructure = require('./projectStructure.json');
 const data = require('./data.json');
-const { build } = require('./generators/helpers');
+const { build, lintAndExecute } = require('./generators/helpers');
 const { srcGenerator } = require('./generators/src/src');
 
-const main = () => {
+const main = async () => {
   const projectStructureSeeds = projectStructure[0].seeds;
   projectStructureSeeds.map((seed) => {
     let seedName = seed.name;
@@ -25,5 +25,8 @@ const main = () => {
 
   rimraf.sync("./project");
   build(projectStructure);
+
+  //await lintAndExecute('npm run lint')
+
 }
 main()

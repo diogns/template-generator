@@ -1,4 +1,11 @@
 const fs = require('fs');
+const rimraf = require("rimraf");
+const { promisify } = require('util');
+const { exec } = require('child_process');
+
+const options = require('../options.json');
+
+const execPromise = promisify(exec);
 
 const getNames = (entity) => {
   const name = entity.name;
@@ -63,8 +70,34 @@ const build = (structure, path = './') => {
   }
 }
 
-const lintAndExecute = (command) => {
-  fs.cpSync(src, dest, {recursive: true});
+const lintAndExecute = async (command) => {
+  let src = './project';
+  let dest = `${options.location}/${options.projectName}`;
+
+  if (!fs.existsSync(dest)) {
+    fs.mkdirSync(dest);
+  } else {
+    rimraf.sync(dest);
+    fs.mkdirSync(dest);
+  }
+
+  fs.cpSync(src, dest, { recursive: true });
+
+  try {
+    const { stdout: stdout1, stderr: stderr1 } = await execPromise('npm install', { cwd: dest });
+    console.log(`npm install: ${stdout1}`);
+    console.error(`npm install err: ${stderr1}`);
+
+    const { stdout: stdout2, stderr: stderr2 } = await execPromise('npm run lint', { cwd: dest });
+    console.log(`npm run lint: ${stdout2}`);
+    console.error(`npm run lint err: ${stderr2}`);
+
+    // const { stdout: stdout3, stderr: stderr3 } = await execPromise('pwd');
+    // console.log(`stdout3: ${stdout3}`);
+    // console.error(`stderr3: ${stderr3}`);
+  } catch (error) {
+    console.error(`Error executing commands: ${error}`);
+  }
 
 }
 
@@ -72,7 +105,7 @@ fileAndFolderObject = { type: '', name: '', content: '', seeds: [] }
 
 const crud = [
   {
-    name:'add',
+    name: 'add',
     action: 'Add',
     actionUper: 'ADD',
     actionInGerund: 'adding',
@@ -80,7 +113,7 @@ const crud = [
     type: 'command',
   },
   {
-    name:'update',
+    name: 'update',
     action: 'Update',
     actionUper: 'UPDATE',
     actionInGerund: 'updating',
@@ -88,7 +121,7 @@ const crud = [
     type: 'command',
   },
   {
-    name:'remove',
+    name: 'remove',
     action: 'Remove',
     actionUper: 'REMOVE',
     actionInGerund: 'removing a',
@@ -96,7 +129,7 @@ const crud = [
     type: 'command',
   },
   {
-    name:'get',
+    name: 'get',
     action: 'Get',
     actionUper: 'GET',
     actionInGerund: 'getting',
@@ -104,7 +137,7 @@ const crud = [
     type: 'query',
   },
   {
-    name:'list',
+    name: 'list',
     action: 'List',
     actionUper: 'LIST',
     actionInGerund: 'Listing',

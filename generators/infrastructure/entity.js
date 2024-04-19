@@ -49,13 +49,13 @@ const entityGenerator = (entity) => {
   oneToMany.map((entity) => {
     const value = entity.value;
     const names = getNames({ name: value });
-    const importEntity = `import { ${names.uperFL}Entity } from '@${names.fileName}/infrastructure/entities/${names.fileName}.entity';`;
+    const importEntity = `import { ${names.uperFL}Entity } from '@modules/${names.fileName}/infrastructure/entities/${names.fileName}.entity';`;
     content = content.concat(importEntity);
   })
   manyToOne.map((entity) => {
     const value = entity.value;
     const names = getNames({ name: value });
-    const importEntity = `import { ${names.uperFL}Entity } from '@${names.fileName}/infrastructure/entities/${names.fileName}.entity';`;
+    const importEntity = `import { ${names.uperFL}Entity } from '@modules/${names.fileName}/infrastructure/entities/${names.fileName}.entity';`;
     content = content.concat(importEntity);
   })
 

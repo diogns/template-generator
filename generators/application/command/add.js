@@ -112,8 +112,8 @@ const addCommandGenerator = (entity, entitiesByName) => {
   import { ${names.uperFL}Entity } from '@modules/${names.fileName}/domain/entities/${names.fileName}.entity';
   import { ${names.uperFL}CommandsRepository } from '@modules/${names.fileName}/domain/repositories/${names.fileName}.repository';
   import { ${names.uperFL}CommandsImplement } from '@modules/${names.fileName}/infrastructure/repositories/${names.fileName}.repository';
-  import { Mod${names.uperFL}ResponseDTO } from '@modules/${names.fileName}/interfaces/http/v1/add-${names.fileName}/dto/add-${names.fileName}.response';
-  import { ${names.uperFL}ResponseDTO } from '@modules/${names.fileName}/interfaces/http/v1/list-${names.fileName}s/dto/list-${names.fileName}s.response';
+  import { Mod${names.uperFL}ResponseDTO } from '@modules/${names.fileName}/interfaces/http/v1/dtos/mod-${names.fileName}.response';
+  import { ${names.uperFL}ResponseDTO } from '@modules/${names.fileName}/interfaces/http/v1/dtos/${names.fileName}.response';
   ${relations}
 
   export class Add${names.uperFL}Command {

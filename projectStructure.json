@@ -11,6 +11,12 @@
         "seeds": [
           {
             "type": "dir",
+            "name": "core",
+            "content": "",
+            "seeds": []
+          },
+          {
+            "type": "dir",
             "name": "migrations",
             "content": "",
             "seeds": []
@@ -19,38 +25,7 @@
             "type": "dir",
             "name": "helpers",
             "content": "",
-            "seeds": [
-              {
-                "type": "file",
-                "name": "AuroraManager.ts",
-                "content": "",
-                "seeds": []
-              },
-              {
-                "type": "file",
-                "name": "constants.ts",
-                "content": "",
-                "seeds": []
-              },
-              {
-                "type": "file",
-                "name": "Types.ts",
-                "content": "",
-                "seeds": []
-              },
-              {
-                "type": "file",
-                "name": "Parameters.ts",
-                "content": "",
-                "seeds": []
-              },
-              {
-                "type": "file",
-                "name": "common.ts",
-                "content": "",
-                "seeds": []
-              }
-            ]
+            "seeds": []
           },
           {
             "type": "dir",
