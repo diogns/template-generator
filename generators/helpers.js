@@ -92,9 +92,13 @@ const lintAndExecute = async (command) => {
     console.log(`npm run lint: ${stdout2}`);
     console.error(`npm run lint err: ${stderr2}`);
 
-    // const { stdout: stdout3, stderr: stderr3 } = await execPromise('pwd');
-    // console.log(`stdout3: ${stdout3}`);
-    // console.error(`stderr3: ${stderr3}`);
+    const { stdout: stdout3, stderr: stderr3 } = await execPromise('npm_config_name=initDB npm run migration:generate', { cwd: dest });
+    console.log(`npm run migration:generate: ${stdout3}`);
+    console.error(`npm run migration:generate err: ${stderr3}`);
+
+    const { stdout: stdout4, stderr: stderr4 } = await execPromise('git init', { cwd: dest });
+    console.log(`git init: ${stdout4}`);
+    console.error(`git init err: ${stderr4}`);
   } catch (error) {
     console.error(`Error executing commands: ${error}`);
   }

@@ -1,6 +1,6 @@
 [
   {
-    "name": "user",
+    "name": "account",
     "hasDefaultIndex": true,
     "index": "",
     "attributes": [
@@ -11,7 +11,8 @@
         "unique": false,
         "exclude": false,
         "format": null,
-        "notNull": true
+        "notNull": true,
+        "minLength": 3
       },
       {
         "name": "name",
@@ -20,15 +21,94 @@
         "unique": false,
         "exclude": false,
         "format": null,
-        "notNull": true
+        "notNull": true,
+        "minLength": 3
       }
     ],
     "oneToMany": [
       {
         "value": "position"
+      },
+      {
+        "value": "positionSetting"
       }
     ],
     "manyToOne": []
+  },
+  {
+    "name": "pair",
+    "hasDefaultIndex": true,
+    "index": "",
+    "attributes": [
+      {
+        "name": "name",
+        "example": "name",
+        "type": "varchar",
+        "unique": false,
+        "exclude": false,
+        "format": null,
+        "notNull": true,
+        "minLength": 3
+      }
+    ],
+    "oneToMany": [
+      {
+        "value": "signal"
+      },
+      {
+        "value": "positionSetting"
+      },
+      {
+        "value": "position"
+      }
+    ],
+    "manyToOne": []
+  },
+  {
+    "name": "positionSetting",
+    "hasDefaultIndex": true,
+    "index": "",
+    "attributes": [
+      {
+        "name": "flag",
+        "example": "flag",
+        "type": "varchar",
+        "unique": false,
+        "exclude": false,
+        "format": null,
+        "notNull": true,
+        "minLength": 3
+      },
+      {
+        "name": "stopLoss",
+        "example": 1,
+        "type": "float",
+        "unique": false,
+        "exclude": false,
+        "format": null,
+        "notNull": true,
+        "minLength": null
+      },
+      {
+        "name": "openPositions",
+        "example": 2,
+        "type": "int",
+        "unique": false,
+        "exclude": false,
+        "format": null,
+        "notNull": true,
+        "minLength": null
+      }
+    ],
+    "oneToMany": [],
+    "manyToOne": [
+      {
+        "value": "account"
+      },
+      {
+        "value": "pair"
+      }
+    ]
   },
   {
     "name": "position",
@@ -42,22 +122,67 @@
         "unique": false,
         "exclude": false,
         "format": null,
-        "notNull": true
+        "notNull": true,
+        "minLength": 3
       },
       {
         "name": "type",
-        "example": 2,
+        "example": 1,
         "type": "int",
         "unique": false,
         "exclude": false,
         "format": null,
-        "notNull": true
+        "notNull": true,
+        "minLength": null
       }
     ],
     "oneToMany": [],
     "manyToOne": [
       {
-        "value": "user"
+        "value": "signal"
+      },
+      {
+        "value": "account"
+      },
+      {
+        "value": "pair"
+      }
+    ]
+  },
+  {
+    "name": "signal",
+    "hasDefaultIndex": true,
+    "index": "",
+    "attributes": [
+      {
+        "name": "name",
+        "example": "name",
+        "type": "varchar",
+        "unique": false,
+        "exclude": false,
+        "format": null,
+        "notNull": true,
+        "minLength": 3
+      },
+      {
+        "name": "value",
+        "example": "value",
+        "type": "float",
+        "unique": false,
+        "exclude": false,
+        "format": null,
+        "notNull": true,
+        "minLength": null
+      }
+    ],
+    "oneToMany": [
+      {
+        "value": "position"
+      }
+    ],
+    "manyToOne": [
+      {
+        "value": "pair"
       }
     ]
   }

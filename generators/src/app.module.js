@@ -1,12 +1,12 @@
 const { getNames } = require("../helpers");
 
 const appModuleGenerator = (entities) => {
-  let importsEntities = '';
-  let importsEntitiesModule = '';
+  let importEntities = '';
+  let importEntitiesModule = '';
   entities.map((entity) => {
     const names = getNames(entity);
-    importsEntities += `import { ${names.uperFL}Module } from '@modules/${names.name}/infrastructure/nestjs/module';\n`;
-    importsEntitiesModule += `${names.uperFL}Module,\n`;
+    importEntities += `import { ${names.uperFL}Module } from '@modules/${names.fileName}/infrastructure/nestjs/module';\n`;
+    importEntitiesModule += `${names.uperFL}Module,\n`;
   })
 
   const content = `
@@ -15,11 +15,11 @@ const appModuleGenerator = (entities) => {
     import { HttpModule } from '@nestjs/axios';
     
     import { AppService } from './app.service';
-    ${importsEntities}
+    ${importEntities}
     
     @Module({
       imports: [
-        ${importsEntitiesModule}
+        ${importEntitiesModule}
         HttpModule,
         ConfigModule.forRoot(),
       ],

@@ -15,7 +15,7 @@ const main = async () => {
     let seedName = seed.name;
     
     if (seedName == 'src') {
-      srcGenerator(seed, entities, projectStructure)
+      srcGenerator(seed, entities, options)
     } else {
       projectGenerator(seed, options)
     }
@@ -24,7 +24,6 @@ const main = async () => {
   rimraf.sync("./project");
   build(projectStructure);
 
-  //await lintAndExecute('npm run lint')
-
+  await lintAndExecute('npm run lint')
 }
 main()

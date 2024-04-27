@@ -8,7 +8,7 @@ const { mainGenerator } = require("./main");
 const { migrationsDataSourceGenerator } = require("./migrationsDataSource");
 const { helpersGenerator } = require("./helpers");
 
-const srcGenerator = (ffobject, entities) => {
+const srcGenerator = (ffobject, entities, options) => {
   let ffobjectSeeds = ffobject.seeds;
   ffobjectSeeds.map((seed) => {
     let seedName = seed.name;
@@ -18,7 +18,7 @@ const srcGenerator = (ffobject, entities) => {
     }
 
     if (seedName == "app.service.ts") {
-      seed.content = appServiceGenerator();
+      seed.content = appServiceGenerator(entities);
     }
 
     if (seedName == "core") {
@@ -30,7 +30,7 @@ const srcGenerator = (ffobject, entities) => {
     }
 
     if (seedName == "main.ts") {
-      seed.content = mainGenerator();
+      seed.content = mainGenerator(options);
     }
 
     if (seedName == "migrationsDataSource.ts") {

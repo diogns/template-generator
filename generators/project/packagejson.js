@@ -1,6 +1,9 @@
-const packagejsonGenerator = (ffobject) => {
+const packagejsonGenerator = (ffobject, options) => {
+  const projectName = options.projectName;
+  const jiraPrefix = options.jiraPrefix;
+
   ffobject.content = `{
-  "name": "project-ms",
+  "name": "${projectName}-ms",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -32,6 +35,7 @@ const packagejsonGenerator = (ffobject) => {
     "@nestjs/cqrs": "^10.2.7",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.3.1",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "compression": "^1.7.4",
     "dotenv": "^16.4.5",
@@ -86,7 +90,7 @@ const packagejsonGenerator = (ffobject) => {
   "config": {
     "commitizen": {
       "path": "./node_modules/@digitalroute/cz-conventional-changelog-for-jira",
-      "jiraPrefix": "PODAPM",
+      "jiraPrefix": "${jiraPrefix}",
       "jiraLocation": "post-body"
     }
   }

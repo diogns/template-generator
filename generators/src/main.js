@@ -1,4 +1,9 @@
-const mainGenerator = () => {
+const { getNames } = require('../helpers');
+
+const mainGenerator = (options) => {
+  const projectName = options.projectName;
+  const names = getNames({ name: projectName });
+
   const content = `
   import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
   import { NestFactory } from '@nestjs/core';
@@ -29,8 +34,8 @@ const mainGenerator = () => {
     app.use(compression({ encodings: ['gzip', 'deflate'] }));
   
     const config = new DocumentBuilder()
-      .setTitle('Mantainers Microservice')
-      .setDescription('API specification for mantainers. Auna.')
+      .setTitle('${names.uperFL} Microservice')
+      .setDescription('API specification for ${names.uperFL}')
       .setVersion('1.0')
       .addBearerAuth(
         { type: 'http', scheme: 'bearer', bearerFormat: 'JWT', in: 'header' },

@@ -1,4 +1,17 @@
 {
     "location": "/Users/raul/Projects/Personal",
-    "projectName": "bot-bitnance"
+    "projectName": "bot-binance",
+    "jiraPrefix": "PODPBB",
+    "env": {
+        "port": 3100,
+        "environment": "local",
+        "dbHost": "roundhouse.proxy.rlwy.net",
+        "dbPort": 46853,
+        "dbName": "railway",
+        "dbUser": "root",
+        "dbPass": "devpaYKmHjtaChmgShMoReyknZVASEktzeSPFss",
+        "dbLogging": "true",
+        "dbDialect": "mysql",
+        "poolSize": 10
+    }
 }

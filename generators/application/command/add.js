@@ -109,6 +109,7 @@ const addCommandGenerator = (entity, entitiesByName) => {
   let content = `
   import { Inject, InternalServerErrorException, Logger } from '@nestjs/common';
   import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+  
   import { ${names.uperFL}Entity } from '@modules/${names.fileName}/domain/entities/${names.fileName}.entity';
   import { ${names.uperFL}CommandsRepository } from '@modules/${names.fileName}/domain/repositories/${names.fileName}.repository';
   import { ${names.uperFL}CommandsImplement } from '@modules/${names.fileName}/infrastructure/repositories/${names.fileName}.repository';

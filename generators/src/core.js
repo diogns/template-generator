@@ -9,7 +9,7 @@ export class idParamDto {
   @ApiProperty({
     name: 'id',
     example: '1',
-    type: 'string',
+    type: 'number',
   })
   @Transform(({ value }) => {
     if (value && isNaN(parseInt(value))) {

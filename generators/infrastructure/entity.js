@@ -49,13 +49,15 @@ const entityGenerator = (entity) => {
   oneToMany.map((entity) => {
     const value = entity.value;
     const names = getNames({ name: value });
-    const importEntity = `import { ${names.uperFL}Entity } from '@modules/${names.fileName}/infrastructure/entities/${names.fileName}.entity';`;
+    const importEntity = `import { ${names.uperFL}Entity } from '@modules/${names.fileName}/infrastructure/entities/${names.fileName}.entity';
+    `;
     content = content.concat(importEntity);
   })
   manyToOne.map((entity) => {
     const value = entity.value;
     const names = getNames({ name: value });
-    const importEntity = `import { ${names.uperFL}Entity } from '@modules/${names.fileName}/infrastructure/entities/${names.fileName}.entity';`;
+    const importEntity = `import { ${names.uperFL}Entity } from '@modules/${names.fileName}/infrastructure/entities/${names.fileName}.entity';
+    `;
     content = content.concat(importEntity);
   })
 
@@ -118,7 +120,7 @@ const entityGenerator = (entity) => {
     const attributeItem = `
     @OneToMany(
       () => ${namesOtM.uperFL}Entity,
-      (${namesOtM.name}) => ${namesOtM.name}.${names.name},
+      (${namesOtM.name}:${namesOtM.uperFL}Entity) => ${namesOtM.name}.${names.name},
       { eager: true },
     )
     ${namesOtM.plural}!: ${namesOtM.uperFL}Entity[];
@@ -132,7 +134,7 @@ const entityGenerator = (entity) => {
     const namesMtO = getNames({ name: nameMtO });
 
     const attributeItem = `
-    @ManyToOne(() => ${namesMtO.uperFL}Entity, ( ${namesMtO.name}) => ${namesMtO.name}.${names.plural})
+    @ManyToOne(() => ${namesMtO.uperFL}Entity, ( ${namesMtO.name}:${namesMtO.uperFL}Entity) => ${namesMtO.name}.${names.plural})
     @JoinColumn({ name: '${namesMtO.name}Id' })
     ${namesMtO.name}!: ${namesMtO.uperFL}Entity;
     `;

@@ -32,6 +32,8 @@ const requestDtosGenerator = (entity) => {
   const hasDefaultIndex = entity.hasDefaultIndex;
 
   let atributesPart = "";
+  let classValidatorImport = "";
+  let attributeTypes = [];
 
   if (hasDefaultIndex) {
     const indexPart = `
@@ -41,6 +43,16 @@ const requestDtosGenerator = (entity) => {
     id?: number;
     `;
     atributesPart = atributesPart.concat(indexPart);
+    if (attributeTypes.includes("number") == false) {
+      attributeTypes.push("number");
+      classValidatorImport = classValidatorImport.concat(`IsNumber,
+      `);
+    }
+    if (attributeTypes.includes("optional") == false) {
+      attributeTypes.push("optional");
+      classValidatorImport = classValidatorImport.concat(`IsOptional,
+      `);
+    }
   }
 
   attributes.map((attribute) => {
@@ -48,6 +60,7 @@ const requestDtosGenerator = (entity) => {
     const attributeType = attribute.type;
     const notNull = attribute.notNull;
     const example = attribute.example;
+    const minLength = attribute.minLength;
 
     let attributeItem = "";
     let notNullPart = "";
@@ -58,27 +71,61 @@ const requestDtosGenerator = (entity) => {
       notNullPart = "!";
       requiredPart = "true";
       optionalPart = "@IsNotEmpty()";
+      if (attributeTypes.includes("notEmpty") == false) {
+        attributeTypes.push("notEmpty");
+        classValidatorImport = classValidatorImport.concat(`IsNotEmpty,
+        `);
+      }
     } else {
       notNullPart = "?";
       optionalPart = "@IsOptional()";
+      if (attributeTypes.includes("optional") == false) {
+        attributeTypes.push("optional");
+        classValidatorImport = classValidatorImport.concat(`IsOptional,
+        `);
+      }
     }
 
     if (attributeType == "varchar") {
+
+      let minLenghtPart = "";
+      if (minLength) {
+        minLenghtPart = `@MinLength(${minLength})
+        `;
+        if (attributeTypes.includes("minLength") == false) {
+          attributeTypes.push("minLength");
+          classValidatorImport = classValidatorImport.concat(`MinLength,
+          `);
+        }
+      }
+
       attributeItem = `
       ${optionalPart}
       @IsString()
-      @MinLength(3)
+      ${minLenghtPart}
       @ApiProperty({ type: 'string', required: ${requiredPart}, example: '${example}' })
       ${name}${notNullPart}: string;
       `;
+      
+      if (attributeTypes.includes("string") == false) {
+        attributeTypes.push("string");
+        classValidatorImport = classValidatorImport.concat(`IsString,
+        `);
+      }
     }
     if (attributeType == "float" || attributeType == "int") {
       attributeItem = `
-      @ApiProperty({ type: 'number', required: ${requiredPart}, example: '${example}' })
-      @IsOptional()
       @IsNumber()
+      ${optionalPart}
+      @ApiProperty({ type: 'number', required: ${requiredPart}, example: '${example}' })
       ${name}${notNullPart}: number;
       `;
+
+      if (attributeTypes.includes("number") == false) {
+        attributeTypes.push("number");
+        classValidatorImport = classValidatorImport.concat(`IsNumber,
+        `);
+      }
     }
 
     atributesPart = atributesPart.concat(attributeItem);
@@ -100,11 +147,7 @@ const requestDtosGenerator = (entity) => {
   let content = `
   import { ApiProperty } from '@nestjs/swagger';
   import {
-    IsNumber,
-    IsNotEmpty,
-    IsString,
-    MinLength,
-    IsOptional,
+    ${classValidatorImport}
   } from 'class-validator';
   
   export class ${names.uperFL}RequestDTO {
@@ -124,8 +167,12 @@ const responseDtosGenerator = (entity) => {
   let atributesPart = "";
   let constructorArgs = "";
   let constructorSetting = "";
+  let classValidatorImport = "";
+  let attributeTypes = [];
+
   if (hasDefaultIndex) {
     const indexPart = `
+    @IsNumber()
     @ApiProperty({ type: 'number', example: 1 })
     id: number;
     `;
@@ -137,6 +184,12 @@ const responseDtosGenerator = (entity) => {
     atributesPart = atributesPart.concat(indexPart);
     constructorArgs = constructorArgs.concat(arg);
     constructorSetting = constructorSetting.concat(setting);
+
+    if (attributeTypes.includes("number") == false) {
+      attributeTypes.push("number");
+      classValidatorImport = classValidatorImport.concat(`IsNumber,
+      `);
+    }
   }
 
   attributes.map((attribute) => {
@@ -145,9 +198,8 @@ const responseDtosGenerator = (entity) => {
     const example = attribute.example;
 
     let attributeItem = "";
-    let arg = '';
-    let setting = '';
-
+    let arg = "";
+    let setting = "";
 
     if (attributeType == "varchar") {
       attributeItem = `
@@ -159,6 +211,12 @@ const responseDtosGenerator = (entity) => {
       `;
       setting = `this.${name} = ${name};
       `;
+
+      if (attributeTypes.includes("string") == false) {
+        attributeTypes.push("string");
+        classValidatorImport = classValidatorImport.concat(`IsString,
+        `);
+      }
     }
     if (attributeType == "float" || attributeType == "int") {
       attributeItem = `
@@ -170,8 +228,13 @@ const responseDtosGenerator = (entity) => {
       `;
       setting = `this.${name} = ${name};
       `;
-    }
 
+      if (attributeTypes.includes("number") == false) {
+        attributeTypes.push("number");
+        classValidatorImport = classValidatorImport.concat(`IsNumber,
+        `);
+      }
+    }
 
     atributesPart = atributesPart.concat(attributeItem);
     constructorArgs = constructorArgs.concat(arg);
@@ -204,7 +267,9 @@ const responseDtosGenerator = (entity) => {
 
   let content = `
   import { ApiProperty } from '@nestjs/swagger';
-  import { IsString, IsNumber } from 'class-validator';
+  import { 
+    ${classValidatorImport}
+  } from 'class-validator';
   ${importRelation}
   
   

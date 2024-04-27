@@ -2,3 +2,4 @@
 | ---- | ---- | ---- |
 |      |      |      |
 |      |      |      |s
+npm_config_name=tuNombreDeMigracion npm run migration:generate

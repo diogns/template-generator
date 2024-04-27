@@ -9,14 +9,18 @@ const { interfacesGenerator } = require('../interfaces/interfaces');
 const moduleGenerator = (ffobject, entities) => {
   let ffobjectSeeds = ffobject.seeds;
   const entitiesByName = {};
+  const entitiesByFileName = {};
 
   entities.map((entity) => {
     const names = getNames(entity)
     const newFfobject = JSON.parse(JSON.stringify(fileAndFolderObject));
     newFfobject.type = 'dir';
-    newFfobject.name = names.name;
+    newFfobject.name = names.fileName;
     newFfobject.seeds = JSON.parse(JSON.stringify(moduleJsonObject));
     ffobjectSeeds.push(newFfobject);
+    if (!entitiesByFileName.hasOwnProperty(names.fileName)) {
+      entitiesByFileName[names.fileName] = entity;
+    }
     if (!entitiesByName.hasOwnProperty(names.name)) {
       entitiesByName[names.name] = entity;
     }
@@ -32,22 +36,22 @@ const moduleGenerator = (ffobject, entities) => {
 
       // application
       if (childName == 'application') {
-        applicationGenerator(child, entitiesByName[seedName], entitiesByName)
+        applicationGenerator(child, entitiesByFileName[seedName], entitiesByName)
       }
 
       // domain
       if (childName == 'domain') {
-        domainGenerator(child, entitiesByName[seedName])
+        domainGenerator(child, entitiesByFileName[seedName])
       }
 
       // infrastructure
       if (childName == 'infrastructure') {
-        infrastructureGenerator(child, entitiesByName[seedName])
+        infrastructureGenerator(child, entitiesByFileName[seedName])
       }
       
       // interface
       if (childName == 'interfaces') {
-        interfacesGenerator(child, entitiesByName[seedName])
+        interfacesGenerator(child, entitiesByFileName[seedName])
       }
     });
     

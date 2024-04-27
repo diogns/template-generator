@@ -7,21 +7,23 @@ const repositoryGenerator = (entity) => {
 
   let importReference = '';
   let relations = '';
-  let addRelation = '';
+  let addRelationMod = '';
 
   if (manyToOne.length > 0) {
     manyToOne.map((item) => {
       const itemNames = getNames({ name: item.value })
-      const importEntity = `import { ${itemNames.uperFL}Entity as ${itemNames.uperFL}Esquema } from '@modules/${itemNames.fileName}/infrastructure/entities/${itemNames.fileName}.entity';`
-      addRelation = `
+      const importEntity = `import { ${itemNames.uperFL}Entity as ${itemNames.uperFL}Esquema } from '@modules/${itemNames.fileName}/infrastructure/entities/${itemNames.fileName}.entity';
+      `
+      const addRelation = `
       if (${names.name}.${itemNames.name}Id) {
         const ${itemNames.name} = new ${itemNames.uperFL}Esquema();
-        user.id = ${names.name}.${itemNames.name}Id;
+        item.id = ${names.name}.${itemNames.name}Id;
         item.${itemNames.name} = ${itemNames.name};
       }
       `
       importReference = importReference.concat(importEntity);
       relations = relations.concat(`${itemNames.name}: true,`);
+      addRelationMod = addRelationMod.concat(addRelation);
     });
   }
 
@@ -112,14 +114,14 @@ export class ${names.uperFL}CommandsImplement
     try {
       const item = new ${names.uperFL}Esquema();
       ${addAtributesPart}
-      ${addRelation}
+      ${addRelationMod}
       const data = await this.mysqlManager
         .getRepository(${names.uperFL}Esquema)
         .save(item);
 
       return ok(data);
     } catch (error) {
-      this.logger.error(error, 'PmositionCommandsImplement.add${names.uperFL}');
+      this.logger.error(error, '${names.uperFL}CommandsImplement.add${names.uperFL}');
       return err(new Add${names.uperFL}DatabaseException());
     }
   }
@@ -130,7 +132,7 @@ export class ${names.uperFL}CommandsImplement
     try {
       const item = new ${names.uperFL}Esquema();
       ${addAtributesPart}
-      ${addRelation}
+      ${addRelationMod}
       const result = await this.mysqlManager
         .getRepository(${names.uperFL}Esquema)
         .update(${names.name}.id, item);

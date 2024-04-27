@@ -11,14 +11,13 @@ const { tsconfigGenerator } = require('./tsconfig');
 const { tsconfigbuildGenerator } = require('./tsconfigbuild');
 
 const projectGenerator = (ffobject, options) => {
-  console.log('options', options)
   const name = ffobject.name;
 
   if (name === 'Dockerfile') {
     dockerfileGenerator(ffobject);
   }
-  if (name === 'docker-compose.yml') {
-    dockercomposeGenerator(ffobject);
+  if (name === 'docker-compose.yaml') {
+    dockercomposeGenerator(ffobject, options);
   }
   if (name === '.dockerignore') {
     dockerignoreGenerator(ffobject);
@@ -27,10 +26,10 @@ const projectGenerator = (ffobject, options) => {
     gitignoreGenerator(ffobject);
   }
   if (name === '.env') {
-    envGenerator(ffobject);
+    envGenerator(ffobject, options);
   }
   if (name === 'package.json') {
-    packagejsonGenerator(ffobject);
+    packagejsonGenerator(ffobject, options);
   }
   if (name === '.eslintrc.js') {
     eslintrcGenerator(ffobject);

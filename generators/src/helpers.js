@@ -1,7 +1,6 @@
 const { fileAndFolderObject, getNames } = require('../helpers');
 
-const dbManagerContent = `import { Logger } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+const dbManagerContent = `import { DataSource } from 'typeorm';
 import type { EntityManager } from 'typeorm';
 
 import { AppService } from 'src/app.service';
@@ -22,8 +21,6 @@ type IDBConfig = {
 };
 
 export class DbManager {
-  private static logger = new Logger();
-
   static async instance(entities: any[]): Promise<Instance> {
     const config = await this.getDbConfig();
     const dataSource = await this.getDataSource(config, entities)
@@ -119,7 +116,7 @@ export class Parameters {
 
   static get urlServerSwagger() {
     return this.environment !== 'local'
-      ? \`/${this.environment}/botbinancecore\`
+      ? \`/\${this.environment}/botbinancecore\`
       : '';
   }
 

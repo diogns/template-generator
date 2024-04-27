@@ -70,7 +70,7 @@ const listQueryGenerator = (entity, entitiesByName) => {
 
       const responseDTOEntityRelated = `
       let ${itemNames.name} = null;
-      if (data.${itemNames.name}) {
+      if (item.${itemNames.name}) {
         ${itemNames.name} = new ${itemNames.uperFL}ResponseDTO(
           ${idEntityRelated}
           ${responseEntityRelated}

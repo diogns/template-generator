@@ -1,12 +1,19 @@
-const envGenerator = (ffobject) => {
+const envGenerator = (ffobject, options) => {
+  const envVariables = options.env;
+  
   ffobject.content = `# Environment variables
-DB_HOST=
-DB_PORT=
-DB_NAME=
-DB_USER=
-DB_PASS=
-DB_LOGGING='false' | 'true' | default: false
-DB_DIALECT='mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | default: mysql
+PORT = ${envVariables.port}
+ENVIRONMENT = '${envVariables.environment}'
+
+# DB
+DB_HOST = '${envVariables.dbHost}'
+DB_PORT = ${envVariables.port}
+DB_NAME = '${envVariables.dbName}'
+DB_USER = '${envVariables.dbUser}'
+DB_PASS = '${envVariables.dbPass}'
+DB_LOGGING = '${envVariables.dbLogging}'
+DB_DIALECT = '${envVariables.dbDialect}'
+POOL_SIZE = ${envVariables.poolSize}
 `;
 };
 

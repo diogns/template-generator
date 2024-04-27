@@ -1,15 +1,28 @@
-const appServiceGenerator = () => {
+const { getNames } = require('../helpers');
+
+const appServiceGenerator = (entities) => {
+  let importEntities = '';
+  let importEntitiesClass = '';
+  entities.map((entity) => {
+    const names = getNames(entity);
+    importEntities += `import { ${names.uperFL}Entity } from '@modules/${names.fileName}/infrastructure/entities/${names.fileName}.entity';
+    `;
+    importEntitiesClass += `${names.uperFL}Entity,\n`;
+  })
+
+
   const content = `
   import { Injectable } from '@nestjs/common';
   import { DbManager } from '@helpers/DbManager';
   
-  import { UserEntity } from '@modules/user/infrastructure/entities/user.entity';
-  import { PositionEntity } from '@modules/position/infrastructure/entities/position.entity';
+  ${importEntities}
   
   type DBType = 'mysql' | 'oracle' | 'postgres';
   type ManagerDatasource = 'manager' | 'dataSource';
   
-  export const entities = [UserEntity, PositionEntity];
+  export const entities = [
+    ${importEntitiesClass}
+  ];
   
   @Injectable()
   export class AppService {

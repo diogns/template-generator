@@ -112,11 +112,5 @@
         ]
       }
     ]
-  },
-  {
-    "type": "dir",
-    "name": "shared",
-    "content": "",
-    "seeds": []
   }
 ]
