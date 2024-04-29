@@ -3,13 +3,13 @@
     "projectName": "bot-binance",
     "jiraPrefix": "PODPBB",
     "env": {
-        "port": 3100,
+        "port": 5600,
         "environment": "local",
         "dbHost": "roundhouse.proxy.rlwy.net",
         "dbPort": 46853,
         "dbName": "railway",
         "dbUser": "root",
-        "dbPass": "devpaYKmHjtaChmgShMoReyknZVASEktzeSPFss",
+        "dbPass": "YKmHjtaChmgShMoReyknZVASEktzeSPF",
         "dbLogging": "true",
         "dbDialect": "mysql",
         "poolSize": 10

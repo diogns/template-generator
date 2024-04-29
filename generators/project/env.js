@@ -7,7 +7,7 @@ ENVIRONMENT = '${envVariables.environment}'
 
 # DB
 DB_HOST = '${envVariables.dbHost}'
-DB_PORT = ${envVariables.port}
+DB_PORT = ${envVariables.dbPort}
 DB_NAME = '${envVariables.dbName}'
 DB_USER = '${envVariables.dbUser}'
 DB_PASS = '${envVariables.dbPass}'

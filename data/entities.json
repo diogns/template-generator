@@ -166,7 +166,7 @@
       },
       {
         "name": "value",
-        "example": "value",
+        "example": 2,
         "type": "float",
         "unique": false,
         "exclude": false,
